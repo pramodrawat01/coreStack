@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink text-white antialiased;
+    font-feature-settings: "ss01";
+  }
+  ::selection {
+    @apply bg-accent/30 text-white;
+  }
+  :focus-visible {
+    outline: 2px solid #FF5A2D;
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .bg-dot-grid {
+    background-image: radial-gradient(circle, #24262A 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .fade-mask-b {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

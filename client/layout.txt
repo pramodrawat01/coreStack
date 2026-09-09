@@ -1,0 +1,7 @@
+this is the complete end to end saas product for a small to medium lavel enterprise who doesn't wants to engage with 
+
+
+
+src/components/dashboard/EmptyState.jsx — placeholder for modules 
+
+
