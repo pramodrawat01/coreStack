@@ -7,6 +7,7 @@
 import jwt from 'jsonwebtoken'
 import { getTenantConnection } from '../config/connections.js'
 import { getUserModel } from '../models/tenant/User.js'
+import { getRoleModel } from '../models/tenant/Role.js'
 
 
 export  async function protect(req, res, next){
@@ -20,7 +21,7 @@ export  async function protect(req, res, next){
         const conn = getTenantConnection(decoded.dbName)
         // creating a User and Role model here 
         const User = getUserModel(conn)
-        const Role = getUserModel(conn)
+        const Role = getRoleModel(conn)
 
         const user = await User.findById(decoded.userId).populate("role")
         if(!user) return res.status(401).json({message : "Not authenticated!"})
@@ -42,14 +43,14 @@ export  async function protect(req, res, next){
     }
 }
 
-export function requirePermission(permission){
+export function requirePermission(module, action){
     return (req, res, next) => {
-        const permissions = req.user.role?.permission || []
-        if(!permissions.includes(permission)) {
-            return res.status(403).json({
-                message : "You do not have permission to do this"
-            })
+        const allowed = req.user.role?.permissions?.[module]?.[action] === true
+        console.log(allowed)
+        if(!allowed){
+            return res.status(403).json({ message: 'You do not have permission to do this' }) 
         }
+        
         next()
 
     }

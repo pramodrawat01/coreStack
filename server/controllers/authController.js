@@ -6,16 +6,8 @@ import { getUserModel } from '../models/tenant/User.js'
 import { getRoleModel } from '../models/tenant/Role.js'
 import { setAuthCookie } from '../utils/generateToken.js'
 import Invite from '../models/master/Invite.js'
+import { buildFullPermissions } from '../config/permissionSchema.js'
 
-const OWNER_PERMISSIONS = [
-  'inventory:read', 'inventory:write',
-  'orders:read', 'orders:write',
-  'purchases:read', 'purchases:write',
-  'invoices:read', 'invoices:write',
-  'reports:read',
-  'employees:read', 'employees:invite',
-  'roles:manage',
-]
 
 // create slug of dbName
 function slugify(str) {
@@ -57,7 +49,7 @@ export async function signup(req, res){
 
     const ownerRole = await Role.create({
         name : "Owner",
-        permissions : OWNER_PERMISSIONS,
+        permissions : buildFullPermissions(),
         isDefaultOwnerRole: true 
     })
     // hasing the password in userSchema 
