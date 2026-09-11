@@ -49,6 +49,7 @@ export async function signup(req, res){
 
     const ownerRole = await Role.create({
         name : "Owner",
+        description: 'Full access to all modules and settings',
         permissions : buildFullPermissions(),
         isDefaultOwnerRole: true 
     })

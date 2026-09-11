@@ -44,3 +44,12 @@
 ::-webkit-scrollbar {
   display: none;
 }
+
+.Toastify__toast {
+  background: #141517 !important;
+  border: 1px solid #26282C !important;
+  color: #fff !important;
+  font-family: inherit;
+  font-size: 13px;
+}
+.Toastify__progress-bar { display: none; }

@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchMe, login as loginThunk, signup as signupThunk, logout as logoutThunk } from '../store/authSlice.js'
+import { fetchMe, login as loginThunk, signup as signupThunk, logout as logoutThunk, acceptInvite as acceptInviteThunk } from '../store/authSlice.js'
 
 export function useAuth() {
   const dispatch = useDispatch()
@@ -36,5 +36,13 @@ export function useAuth() {
     }
   }, [dispatch])
 
-  return { user, company, role, loading: initializing, status, error, login, signup, logout }
+  const acceptInvite = useCallback(async(payload) => {
+    try {
+      return await dispatch(acceptInviteThunk(payload)).unwrap()
+    } catch (error) {
+      throw toError(error)
+    }
+  }, [dispatch])
+
+  return { user, company, role, loading: initializing, status, error, login, signup, logout, acceptInvite }
 }

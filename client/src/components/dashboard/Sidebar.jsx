@@ -14,19 +14,52 @@ import {
   FaCog,
   FaCubes,
 } from "react-icons/fa";
+import { useModuleAccess } from '../../hooks/usePermission.js'
 
 const NAV_ITEMS = [
-  { icon: FaHome, label: "Overview", to: "/dashboard" },
-  { icon: FaBoxOpen, label: "Inventory", to: "/dashboard/inventory" },
-  { icon: FaTags, label: "Products", to: "/dashboard/products" },
-  { icon: FaShoppingCart, label: "Orders", to: "/dashboard/orders" },
-  { icon: FaUsers, label: "Customers", to: "/dashboard/customers" },
-  { icon: FaTruck, label: "Suppliers", to: "/dashboard/suppliers" },
-  { icon: FaWarehouse, label: "Purchase Orders", to: "/dashboard/purchase-orders" },
-  { icon: FaFileInvoiceDollar, label: "Invoices", to: "/dashboard/invoices" },
-  { icon: FaCreditCard, label: "Payments", to: "/dashboard/payments" },
-  { icon: FaChartBar, label: "Reports", to: "/dashboard/reports" },
-];
+  { icon: FaHome, label: 'Overview', to: '/dashboard', module: null }, // everyone with a login sees Overview
+  { icon: FaBoxOpen, label: 'Inventory', to: '/dashboard/inventory', module: 'inventory' },
+  { icon: FaTags, label: 'Products', to: '/dashboard/products', module: 'products' },
+  { icon: FaShoppingCart, label: 'Orders', to: '/dashboard/orders', module: 'orders' },
+  { icon: FaUsers, label: 'Customers', to: '/dashboard/customers', module: 'customers' },
+  { icon: FaTruck, label: 'Suppliers', to: '/dashboard/suppliers', module: 'suppliers' },
+  { icon: FaWarehouse, label: 'Purchase Orders', to: '/dashboard/purchase-orders', module: 'purchases' },
+  { icon: FaFileInvoiceDollar, label: 'Invoices', to: '/dashboard/invoices', module: 'invoices' },
+  { icon: FaCreditCard, label: 'Payments', to: '/dashboard/payments', module: 'payments' },
+  { icon: FaChartBar, label: 'Reports', to: '/dashboard/reports', module: 'reports' },
+]
+
+function NavItem({ item, collapsed, setCollapsed }) {
+  // hooks can't be called conditionally, but this component always calls exactly one hook per render
+  const hasAccess = useModuleAccess(item.module)
+  if (item.module && !hasAccess) return null
+
+  return (
+   <NavLink
+            key={item.label}
+            to={item.to}
+            end={item.to === "/dashboard"}
+            title={collapsed ? item.label : undefined}
+            className={({ isActive }) =>
+              ` flex items-center
+                ${collapsed ? "justify-center" : "gap-3"}
+                h-10 rounded-md px-3 py-2 text-[13px] transition-colors
+                ${
+                  isActive
+                    ? "border-l-2 border-accent2 bg-white/[0.07] text-accent2"
+                    : "border-l-2 border-transparent text-faint hover:text-white hover:bg-white/[0.04]"
+                }
+              `
+            }
+          >
+            <item.icon size={14} />
+
+            {!collapsed && (
+              <span>{item.label}</span>
+            )}
+          </NavLink>
+  )
+}
 
 export default function Sidebar({ collapsed, setCollapsed }) {
   return (
@@ -69,29 +102,8 @@ export default function Sidebar({ collapsed, setCollapsed }) {
       <nav className="flex flex-col gap-0.5">
 
         {NAV_ITEMS.map((item) => (
-          <NavLink
-            key={item.label}
-            to={item.to}
-            end={item.to === "/dashboard"}
-            title={collapsed ? item.label : undefined}
-            className={({ isActive }) =>
-              ` flex items-center
-                ${collapsed ? "justify-center" : "gap-3"}
-                h-10 rounded-md px-3 py-2 text-[13px] transition-colors
-                ${
-                  isActive
-                    ? "border-l-2 border-accent2 bg-white/[0.07] text-accent2"
-                    : "border-l-2 border-transparent text-faint hover:text-white hover:bg-white/[0.04]"
-                }
-              `
-            }
-          >
-            <item.icon size={14} />
-
-            {!collapsed && (
-              <span>{item.label}</span>
-            )}
-          </NavLink>
+          
+          <NavItem key={item.label} item={item} collapsed={collapsed} setCollapsed={setCollapsed} />
         ))}
 
       </nav>

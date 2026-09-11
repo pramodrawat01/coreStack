@@ -8,7 +8,7 @@ export const PERMISSION_SCHEMA = {
   customers:  { label: 'Customers',  actions: ['read', 'write'] },
   suppliers:  { label: 'Suppliers',  actions: ['read', 'write'] },
   reports:    { label: 'Reports',    actions: ['read'] },
-  employees:  { label: 'Team',       actions: ['read', 'invite'] },
+  employees:  { label: 'Team/Employee',       actions: ['read', 'invite'] },
   roles:      { label: 'Roles',      actions: ['manage'] },
 }
 

@@ -2,6 +2,9 @@ import { Provider } from 'react-redux'
 import AuthPage from './pages/AuthPage.jsx'
 import LandingPage from './pages/LandingPage.jsx'
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import { store } from './store/store.js'
 import PublicRoute from './components/PublicRoute.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
@@ -27,10 +30,15 @@ import SecuritySettings from './pages/dashboard/settings/SecuritySettings.jsx'
 import NotificationSettings from './pages/dashboard/settings/NotificationSettings.jsx'
 import Overview from './pages/dashboard/Overview.jsx'
 import DashboardLayout from './layouts/DashboardLayout.jsx'
+import AcceptInvitePage from './pages/AcceptInvitePage.jsx'
+
+import PermissionRoute from './components/PermissionRoute.jsx'
+import InviteTeamMember from './pages/dashboard/settings/InviteTeamMember.jsx'
 
 export default function App() {
   return(
     <Provider store={store}>
+      <ToastContainer/>
       <AuthInitializer>
         <BrowserRouter>
             <Routes>
@@ -42,6 +50,8 @@ export default function App() {
                   <AuthPage/>
                 </PublicRoute>
               } />
+
+              <Route path='/accept-invite' element={<PublicRoute><AcceptInvitePage/></PublicRoute>} />
 
               <Route path='/dashboard' element={
                 <ProtectedRoute>
@@ -60,11 +70,12 @@ export default function App() {
                 <Route path="reports" element={<Reports />} />
 
                 <Route path="settings" element={<SettingsLayout/>} >
-                  <Route index element={<Navigate to="company" replace />} />
+                  <Route index element={<Navigate to="company" replace />} /> 
                   <Route path="company" element={<CompanySettings />} />
-                  <Route path="users" element={<TeamMembers />} />
-                  <Route path="roles" element={<RolesPermissions />} />
-                  <Route path="invitations" element={<Invitations />} />
+                  <Route path="users" element={<PermissionRoute module="employees" action="read"><TeamMembers /></PermissionRoute>} />
+                  <Route path="roles" element={<PermissionRoute module="employees" action="read"> <RolesPermissions />  </PermissionRoute> } />
+                  <Route path='invite' element={<PermissionRoute module="employees" action="invite" ><InviteTeamMember/></PermissionRoute>} />
+                  <Route path="invitations" element={<PermissionRoute module="employees" action="invite"><Invitations /></PermissionRoute>} />
                   <Route path="profile" element={<ProfileSettings />} />
                   <Route path="security" element={<SecuritySettings />} />
                   <Route path="notifications" element={<NotificationSettings />} />

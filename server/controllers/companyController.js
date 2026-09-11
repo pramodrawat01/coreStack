@@ -9,9 +9,10 @@ export function getPermissionSchema(req, res) {
 
 // POST  - /api/company/roles       {name, permissions}
 export async function createRole(req, res) {
-    const {name, permissions} = req.body
+    const {name, description, permissions} = req.body
     const role = await req.tenant.models.Role.create({
         name, 
+        description : description || '' ,
         permissions : permissions || buildEmptyPermissions(),
     })
     res.status(201).json(role)
@@ -26,13 +27,14 @@ export async function listRoles(req, res){
 // PATCH - /api/company/roles/:id       {name?, permissions?}
 export async function updateRole(req, res){
     const { id } = req.params
-    const { name, permissions } = req.body
+    const { name, description, permissions } = req.body
 
     const role = await req.tenant.models.Role.findById(id)
     if (!role) return res.status(404).json({ message: 'Role not found' })
     if(role.isDefaultOwnerRole) return res.status(400).json({ message: 'The Owner role cannot be edited' })
 
     if(name !== undefined) role.name = name
+    if(description !== undefined) role.description = description
     if(permissions !== undefined)  role.permissions = permissions
     await role.save()
     
@@ -89,9 +91,22 @@ export async function inviteEmployee(req, res){
 //  GET /api/company/invites
 export async function listInvites(req, res) {
     const invites = await Invite.find({dbName : req.tenant.dbName, status : 'pending'})
-        .populate('roleId')
         .sort({createdAt : -1})
-    res.json(invites)
+        .lean()
+
+    const roleIds = [...new Set(invites.map((i) => String(i.roleId)))]
+    const roles = await req.tenant.models.Role.find({_id : {$in : roleIds} }).select('name').lean()
+    const roleMap = Object.fromEntries(roles.map((r) => [String(r._id), r.name]))
+
+    const withRoleNames = invites.map((inv) => (
+        {
+            ...inv, 
+            roleName : roleMap[String(inv.roleId)] || "Unknown Role",
+            inviteLink: `${process.env.CLIENT_URL}/accept-invite?token=${inv.token}`,
+        }
+    ))
+    
+    res.json(withRoleNames)
 }
 
 // DELETE  /api/company/invites/:id

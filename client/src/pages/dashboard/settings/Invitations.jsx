@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaPlus, FaTimes, FaCopy } from 'react-icons/fa'
 import {  fetchInvites, fetchRoles, inviteEmployee, revokeInvite } from '../../../store/teamSlice.js'
+import { useNavigate } from 'react-router-dom'
 
 export default function Invitations() {
   const dispatch = useDispatch()
@@ -11,9 +12,13 @@ export default function Invitations() {
   const [roleId, setRoleId] = useState('')
   const [inviteLink, setInviteLink] = useState('')
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     dispatch(fetchRoles())
-    dispatch(fetchInvites())
+    dispatch(fetchInvites()).then((res)=>{
+      console.log(res)
+    })
   }, [dispatch])
 
   const handleInvite = async (e) => {
@@ -35,11 +40,12 @@ export default function Invitations() {
     <div>
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h2 className="text-lg font-semibold">Pending invitations</h2>
+          <h2 className="text-3xl font-semibold">Pending invitations</h2>
           <p className="text-sm text-faint mt-1">People who haven't accepted their invite yet.</p>
         </div>
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => navigate('/dashboard/settings/invite')}
+          // onClick={() => setShowModal(true)}
           className="flex items-center gap-2 rounded-md bg-accent2 px-4 py-2.5 text-sm font-medium text-white hover:bg-accent2/90 transition-colors"
         >
           <FaPlus size={11} /> Invite Member
@@ -56,6 +62,7 @@ export default function Invitations() {
                 <th className="px-4 py-3 font-normal">Email</th>
                 <th className="px-4 py-3 font-normal">Role</th>
                 <th className="px-4 py-3 font-normal">Invited</th>
+                <th className='px-4 py-3 font-normal'>Link</th>
                 <th className="px-4 py-3 font-normal"></th>
               </tr>
             </thead>
@@ -63,8 +70,16 @@ export default function Invitations() {
               {invites.map((inv) => (
                 <tr key={inv._id} className="border-b border-line last:border-0">
                   <td className="px-4 py-3">{inv.email}</td>
-                  <td className="px-4 py-3 text-muted">{inv.roleId?.name}</td>
+                  <td className="px-4 py-3 text-muted">{inv?.roleName}</td>
                   <td className="px-4 py-3 text-faint">{new Date(inv.createdAt).toLocaleDateString()}</td>
+                  <td className="px-4 py-3">
+  <button
+    onClick={() => navigator.clipboard.writeText(inv.inviteLink)}
+    className="flex items-center gap-1.5 text-xs text-faint hover:text-white"
+  >
+    <FaCopy size={11} /> Copy
+  </button>
+</td>
                   <td className="px-4 py-3">
                     <button
                       onClick={() => dispatch(revokeInvite(inv._id))}

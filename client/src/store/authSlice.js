@@ -33,6 +33,14 @@ export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValu
   }
 })
 
+export const acceptInvite = createAsyncThunk('auth/acceptInvite', async(payload, {rejectWithValue}) => {
+  try {
+    return await apiFetch('/api/auth/accept-invite', { method : 'POST', body :  payload})
+  } catch (error) {
+    return rejectWithValue(error.message)
+  }
+})
+
 const initialState = {
   user: null,
   company: null,
@@ -91,6 +99,10 @@ const authSlice = createSlice({
         state.company = null
         state.role = null
         state.status = 'idle'
+      })
+      .addCase(acceptInvite.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.user = action.payload.user
       })
   },
 })
