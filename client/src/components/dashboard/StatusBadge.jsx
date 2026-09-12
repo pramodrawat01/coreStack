@@ -1,5 +1,8 @@
 const STYLES = {
   Active: 'text-emerald-400 bg-emerald-400/10',
+  'Low Stock': 'text-amber-400 bg-amber-400/10',
+  'Out of Stock': 'text-red-400 bg-red-400/10',
+  Inactive: 'text-faint bg-white/[0.06]',
   Shipped: 'text-emerald-400 bg-emerald-400/10',
   Delivered: 'text-emerald-400 bg-emerald-400/10',
   Confirmed: 'text-accent2 bg-accent2/10',

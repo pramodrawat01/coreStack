@@ -13,12 +13,15 @@ import {
   FaChartBar,
   FaCog,
   FaCubes,
+  FaBuilding as FaWarehouseIcon
 } from "react-icons/fa";
 import { useModuleAccess } from '../../hooks/usePermission.js'
 
 const NAV_ITEMS = [
   { icon: FaHome, label: 'Overview', to: '/dashboard', module: null }, // everyone with a login sees Overview
   { icon: FaBoxOpen, label: 'Inventory', to: '/dashboard/inventory', module: 'inventory' },
+  { icon: FaWarehouseIcon, label: 'Warehouses', to: '/dashboard/warehouses', module: 'warehouses' },
+
   { icon: FaTags, label: 'Products', to: '/dashboard/products', module: 'products' },
   { icon: FaShoppingCart, label: 'Orders', to: '/dashboard/orders', module: 'orders' },
   { icon: FaUsers, label: 'Customers', to: '/dashboard/customers', module: 'customers' },

@@ -95,7 +95,7 @@ export default function InviteTeamMember() {
 
       <button onClick={() => navigate("/dashboard/settings/users")} 
       className="flex items-center gap-2 text-sm text-faint hover:text-white transition-colors mb-5">
-        <FaArrowLeft size={11} /> Back to Users
+        <FaArrowLeft size={11} /> Users /
         </button>
       <h1 className="text-xl font-semibold mt-1">Invite Team Member</h1>
       <p className="text-sm text-faint mt-1">Send an invitation and assign their role before they join.</p>
@@ -158,20 +158,20 @@ export default function InviteTeamMember() {
                 <div className='h-0.5 bg-white/30'></div>
 
                 <label className="flex items-center justify-between mt-1">
-                <span className="text-sm text-muted">Send welcome email with setup instructions</span>
-                <button
-                    type="button"
-                    onClick={() => setSendWelcomeEmail((v) => !v)}
-                    className={`relative flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-0 p-0 transition-colors ${
-                        sendWelcomeEmail ? 'bg-accent2' : 'bg-line'
-                    }`}
-                    >
-                    <span
-                        className={`absolute left-0.5 h-4 w-4 rounded-full bg-white transition-transform ${
-                        sendWelcomeEmail ? 'translate-x-4' : 'translate-x-0'
-                        }`}
-                    />
-                    </button>
+                  <span className="text-sm text-muted">Send welcome email with setup instructions</span>
+                  <button
+                      type="button"
+                      onClick={() => setSendWelcomeEmail((v) => !v)}
+                      className={`relative flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-0 p-0 transition-colors ${
+                          sendWelcomeEmail ? 'bg-accent2' : 'bg-line'
+                      }`}
+                      >
+                      <span
+                          className={`absolute left-0.5 h-4 w-4 rounded-full bg-white transition-transform ${
+                          sendWelcomeEmail ? 'translate-x-4' : 'translate-x-0'
+                          }`}
+                      />
+                  </button>
                 </label>
 
                 <div className="flex justify-end gap-2 mt-2">

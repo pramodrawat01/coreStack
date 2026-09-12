@@ -34,6 +34,11 @@ import AcceptInvitePage from './pages/AcceptInvitePage.jsx'
 
 import PermissionRoute from './components/PermissionRoute.jsx'
 import InviteTeamMember from './pages/dashboard/settings/InviteTeamMember.jsx'
+import ProductForm from './pages/dashboard/ProductForm.jsx'
+import ProductDetail from './pages/dashboard/ProductDetail.jsx'
+import Warehouses from './pages/dashboard/Warehouses.jsx'
+import WarehouseForm from './pages/dashboard/WarehouseForm.jsx'
+import WarehouseDetail from './pages/dashboard/WarehouseDetail.jsx'
 
 export default function App() {
   return(
@@ -59,8 +64,17 @@ export default function App() {
                 </ProtectedRoute>
               }>
                 <Route index element={<Overview />} />
-                <Route path="inventory" element={<Inventory />} />
-                <Route path="products" element={<Products />} />
+                <Route path="inventory" element={<PermissionRoute module="inventory" action="read"><Inventory /></PermissionRoute>} />
+                <Route path="products" element={<PermissionRoute module="products" action="read"><Products /></PermissionRoute>} />
+                <Route path="products/new" element={<PermissionRoute module="products" action="write"><ProductForm /></PermissionRoute>} />
+                <Route path="products/:id" element={<PermissionRoute module="products" action="read"><ProductDetail /></PermissionRoute>} />
+                <Route path="products/:id/edit" element={<PermissionRoute module="products" action="write"><ProductForm /></PermissionRoute>} />
+
+                <Route path="warehouses" element={<PermissionRoute module="warehouses" action="read"><Warehouses /></PermissionRoute>} />
+                <Route path="warehouses/new" element={<PermissionRoute module="warehouses" action="write"><WarehouseForm /></PermissionRoute>} />
+                <Route path="warehouses/:id" element={<PermissionRoute module="warehouses" action="read"><WarehouseDetail /></PermissionRoute>} />
+                <Route path="warehouses/:id/edit" element={<PermissionRoute module="warehouses" action="write"><WarehouseForm /></PermissionRoute>} />
+
                 <Route path="orders" element={<Orders />} />
                 <Route path="customers" element={<Customers />} />
                 <Route path="suppliers" element={<Suppliers />} />

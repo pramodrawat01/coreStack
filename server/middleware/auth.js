@@ -8,6 +8,9 @@ import jwt from 'jsonwebtoken'
 import { getTenantConnection } from '../config/connections.js'
 import { getUserModel } from '../models/tenant/User.js'
 import { getRoleModel } from '../models/tenant/Role.js'
+import { getProductModel } from '../models/tenant/Product.js'
+import { getWarehouseModel } from '../models/tenant/warehouse.js'
+import { getInventoryTransactionModel } from '../models/tenant/InventoryTransaction.js'
 
 
 export  async function protect(req, res, next){
@@ -19,9 +22,13 @@ export  async function protect(req, res, next){
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET)  /// { userId, dbName, companyId}
         const conn = getTenantConnection(decoded.dbName)
-        // creating a User and Role model here 
+
+        // creating Models here
         const User = getUserModel(conn)
         const Role = getRoleModel(conn)
+        const Product = getProductModel(conn)
+        const Warehouse = getWarehouseModel(conn)
+        const InventoryTransaction = getInventoryTransactionModel(conn)
 
         const user = await User.findById(decoded.userId).populate("role")
         if(!user) return res.status(401).json({message : "Not authenticated!"})
@@ -32,7 +39,7 @@ export  async function protect(req, res, next){
             companyId : decoded.companyId,
             dbName : decoded.dbName,
             connection : conn,
-            models : {User, Role}
+            models : {User, Role, Product, Warehouse, InventoryTransaction}
         }
         next()
         

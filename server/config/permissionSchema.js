@@ -1,6 +1,7 @@
 export const PERMISSION_SCHEMA = {
   inventory:  { label: 'Inventory',  actions: ['read', 'write'] },
   products:   { label: 'Products',   actions: ['read', 'write'] },
+  warehouses: { label: 'Warehouses', actions: ['read', 'write'] },
   orders:     { label: 'Orders',     actions: ['read', 'write'] },
   purchases:  { label: 'Purchase Orders', actions: ['read', 'write'] },
   invoices:   { label: 'Invoices',   actions: ['read', 'write'] },

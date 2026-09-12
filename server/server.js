@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser'
 import mongoose from 'mongoose'
 import authRouter from './routes/authRoutes.js'
 import companyRouter from './routes/companyRoutes.js'
+import productRouter from './routes/productRoutes.js'
+import warehouseRoutes from './routes/warehouseRoutes.js'
 
 dotenv.config()
 
@@ -27,6 +29,8 @@ app.use(
 
 app.use('/api/auth', authRouter)
 app.use('/api/company', companyRouter)
+app.use('/api/products', productRouter)
+app.use('/api/warehouse', warehouseRoutes)
 
 // app.get("/",(req, res)=>{
 //     res.send("server is listening at port 5000")

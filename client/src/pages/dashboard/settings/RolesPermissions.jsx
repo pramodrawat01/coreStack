@@ -195,7 +195,7 @@ function RoleEditor({ roleId, onBack }) {
   return (
     <div>
       <button onClick={onBack} className="flex items-center gap-2 text-sm text-faint hover:text-white transition-colors mb-5">
-        <FaArrowLeft size={11} /> Back to Roles
+        <FaArrowLeft size={11} /> Roles & Permissions / 
       </button>
 
       <div className="flex items-start justify-between mb-6">
