@@ -30,7 +30,7 @@ app.use(
 app.use('/api/auth', authRouter)
 app.use('/api/company', companyRouter)
 app.use('/api/products', productRouter)
-app.use('/api/warehouse', warehouseRoutes)
+app.use('/api/warehouses', warehouseRoutes)
 
 // app.get("/",(req, res)=>{
 //     res.send("server is listening at port 5000")

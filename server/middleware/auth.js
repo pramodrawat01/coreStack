@@ -53,6 +53,7 @@ export  async function protect(req, res, next){
 export function requirePermission(module, action){
     return (req, res, next) => {
         const allowed = req.user.role?.permissions?.[module]?.[action] === true
+        console.log(req.user.role?.permissions)
         console.log(allowed)
         if(!allowed){
             return res.status(403).json({ message: 'You do not have permission to do this' }) 

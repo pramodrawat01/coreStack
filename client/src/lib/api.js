@@ -9,8 +9,10 @@ export async function apiFetch(path, { method = 'GET', body } = {}) {
   })
 
   const data = await res.json().catch(() => ({}))
+  console.log("data",data)
 
   if (!res.ok) {
+    console.log(data.message)
     throw new Error(data.message || 'Something went wrong in network call')
   }
 

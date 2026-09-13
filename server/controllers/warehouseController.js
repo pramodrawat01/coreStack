@@ -49,6 +49,22 @@ export async function getWarehouse(req, res) {
   res.json(await withComputedStats(warehouse, Product))
 }
 
+
+// GET /api/warehouses/activity
+export async function getRecentActivity(req, res) {
+  const { InventoryTransaction } = req.tenant.models
+  const transactions = await InventoryTransaction.find()
+    .sort({ createdAt: -1 })
+    .limit(10)
+    .populate('product', 'name sku')
+    .populate('warehouse', 'name')
+    .populate('performedBy', 'name')
+    .lean()
+
+  res.json(transactions)
+}
+
+
 // POST /api/warehouses
 export async function createWarehouse(req, res) {
   const warehouse = await req.tenant.models.Warehouse.create(req.body)

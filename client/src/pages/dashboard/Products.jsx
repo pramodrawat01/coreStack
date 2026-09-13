@@ -7,12 +7,13 @@ import { usePermission } from "../../hooks/usePermission.js";
 import StatusBadge from "../../components/dashboard/StatusBadge.jsx";
 import CustomDropdown from "../../components/common/CustomDropdown.jsx";
 
+
 export default function Products() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const canWrite = usePermission("products", "write");
 
-  const { items, total, page, limit, categories } = useSelector(
+  const { items, total, page, limit, categories, loading } = useSelector(
     (s) => s.products,
   );
   const [search, setSearch] = useState("");

@@ -13,8 +13,13 @@ export const fetchWarehouse = createAsyncThunk('warehouses/fetchWarehouse', asyn
   apiFetch(`/api/warehouses/${id}`)
 )
 
+export const fetchRecentActivity = createAsyncThunk('warehouses/fetchActivity', async() =>{
+  apiFetch(`/api/warehouses/activity`)
+})
+
 export const createWarehouse = createAsyncThunk('warehouses/createWarehouse', async (payload, { rejectWithValue }) => {
   try {
+    console.log(payload)
     return await apiFetch('/api/warehouses', { method: 'POST', body: payload })
   } catch (err) {
     return rejectWithValue(err.message)
@@ -40,7 +45,14 @@ export const deleteWarehouse = createAsyncThunk('warehouses/deleteWarehouse', as
 
 const warehousesSlice = createSlice({
   name: 'warehouses',
-  initialState: { items: [], summary: null, current: null, loading: false, error: null },
+  initialState: { 
+    items: [], 
+    summary: null, 
+    current: null, 
+    loading: false, 
+    error: null,
+    activity : [],
+  },
   reducers: {
     clearCurrentWarehouse(state) { state.current = null },
   },
@@ -52,6 +64,9 @@ const warehousesSlice = createSlice({
       .addCase(fetchWarehouseSummary.fulfilled, (state, action) => { state.summary = action.payload })
       .addCase(fetchWarehouse.fulfilled, (state, action) => { state.current = action.payload })
       .addCase(updateWarehouse.fulfilled, (state, action) => { state.current = action.payload })
+      .addCase(fetchRecentActivity.fulfilled, (state, action) => {
+        state.activity  = action.payload
+      })
       .addMatcher(
         (action) => action.type.startsWith('warehouses/') && action.type.endsWith('/rejected'),
         (state, action) => { state.error = action.payload }

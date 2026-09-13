@@ -96,7 +96,7 @@ export default function InviteTeamMember() {
       <button onClick={() => navigate("/dashboard/settings/users")} 
       className="flex items-center gap-2 text-sm text-faint hover:text-white transition-colors mb-5">
         <FaArrowLeft size={11} /> Users /
-        </button>
+      </button>
       <h1 className="text-xl font-semibold mt-1">Invite Team Member</h1>
       <p className="text-sm text-faint mt-1">Send an invitation and assign their role before they join.</p>
        
