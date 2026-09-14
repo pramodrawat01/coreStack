@@ -126,14 +126,14 @@ export default function Products() {
       <div className="mt-4 rounded-lg border border-line bg-surface overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-left text-faint border-b border-line text-xs">
-              <th className="px-4 py-3 font-normal">Product</th>
-              <th className="px-4 py-3 font-normal">SKU</th>
-              <th className="px-4 py-3 font-normal">Category</th>
-              <th className="px-4 py-3 font-normal">Price</th>
-              <th className="px-4 py-3 font-normal">Stock</th>
-              <th className="px-4 py-3 font-normal">Status</th>
-              <th className="px-4 py-3 font-normal"></th>
+              <tr className="bg-[#1d1d1f] text-left text-faint text-sm border-b border-line">
+              <th className="px-4 py-4 font-semibold uppercase">SKU</th>
+              <th className="px-4 py-4 font-semibold uppercase">Product</th>
+              <th className="px-4 py-4 font-semibold uppercase">Category</th>
+              <th className="px-4 py-4 font-semibold uppercase">Price</th>
+              <th className="px-4 py-4 font-semibold uppercase">Stock</th>
+              <th className="px-4 py-4 font-semibold uppercase">Status</th>
+              <th className="px-4 py-4 font-semibold uppercase"></th>
             </tr>
           </thead>
           <tbody>

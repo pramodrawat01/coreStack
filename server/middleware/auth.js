@@ -11,6 +11,7 @@ import { getRoleModel } from '../models/tenant/Role.js'
 import { getProductModel } from '../models/tenant/Product.js'
 import { getWarehouseModel } from '../models/tenant/warehouse.js'
 import { getInventoryTransactionModel } from '../models/tenant/InventoryTransaction.js'
+import { getWarehouseStockModel } from '../models/tenant/WarehouseStock.js'
 
 
 export  async function protect(req, res, next){
@@ -29,6 +30,7 @@ export  async function protect(req, res, next){
         const Product = getProductModel(conn)
         const Warehouse = getWarehouseModel(conn)
         const InventoryTransaction = getInventoryTransactionModel(conn)
+        const WarehouseStock = getWarehouseStockModel(conn)
 
         const user = await User.findById(decoded.userId).populate("role")
         if(!user) return res.status(401).json({message : "Not authenticated!"})
@@ -39,7 +41,7 @@ export  async function protect(req, res, next){
             companyId : decoded.companyId,
             dbName : decoded.dbName,
             connection : conn,
-            models : {User, Role, Product, Warehouse, InventoryTransaction}
+            models : {User, Role, Product, Warehouse, InventoryTransaction, WarehouseStock}
         }
         next()
         

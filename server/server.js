@@ -7,6 +7,7 @@ import authRouter from './routes/authRoutes.js'
 import companyRouter from './routes/companyRoutes.js'
 import productRouter from './routes/productRoutes.js'
 import warehouseRoutes from './routes/warehouseRoutes.js'
+import inventoryRouter from './routes/inventoryRoutes.js'
 
 dotenv.config()
 
@@ -31,6 +32,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/company', companyRouter)
 app.use('/api/products', productRouter)
 app.use('/api/warehouses', warehouseRoutes)
+app.use('/api/inventory', inventoryRouter)
 
 // app.get("/",(req, res)=>{
 //     res.send("server is listening at port 5000")

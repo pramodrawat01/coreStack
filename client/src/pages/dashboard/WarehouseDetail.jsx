@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams, Link } from 'react-router-dom'
-import { FaPen, FaTrash, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaPen, FaTrash, FaMapMarkerAlt, FaBackward, FaArrowLeft } from 'react-icons/fa'
 import { fetchWarehouse, deleteWarehouse, clearCurrentWarehouse } from '../../store/warehousesSlice.js'
 import { usePermission } from '../../hooks/usePermission.js'
 import StatusBadge from '../../components/dashboard/StatusBadge.jsx'
@@ -35,8 +35,10 @@ export default function WarehouseDetail() {
   return (
     <div>
       <div className="flex items-start justify-between">
-        <p className="text-sm text-faint">
-          <Link to="/dashboard/warehouses" className="hover:text-white">Warehouses</Link> / <span className="text-white">{warehouse.name}</span>
+        <p className="text-sm text-faint flex items-center gap-2">
+          <Link to="/dashboard/warehouses" className="hover:text-white flex items-center gap-2  "> 
+          <FaArrowLeft size={11}/>  
+          <span>Warehouses</span></Link> / <span className="text-white">{warehouse.name}</span>
         </p>
         {canWrite && (
           <div className="flex gap-2">

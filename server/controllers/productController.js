@@ -42,8 +42,8 @@ export async function listProducts(req, res){
         // $regex - not only exact match but the similar one 
         // $i - case - insensitive
         filter.$or = [
-            { name : {$regex : search, $option : 'i'}},
-            { sku : { $regex : search, $option : 'i'}},
+            { name : {$regex : search, $options : 'i'}},
+            { sku : { $regex : search, $options : 'i'}},
         ]
     }
 

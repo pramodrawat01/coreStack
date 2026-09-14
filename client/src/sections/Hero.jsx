@@ -5,7 +5,7 @@ import heroImage from '../assets/heroBg.png'
 
 export default function Hero() {
   return (
-    <section id="top" className="relative min-h-screen w-full overflow-hidden bg-black text-white flex flex-col justify-between">
+    <section id="top" className="relative pb-6 min-h-screen w-full overflow-hidden bg-black text-white flex flex-col justify-between">
       
       {/* 1. Full-bleed background image using bg-cover */}
       <div 
@@ -69,7 +69,7 @@ Run your <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-blue-500
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.25 }}
-        className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 w-full -mt-8 sm:-mt-8"
+        className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 w-full"
       >
         <DashboardPreview />
       </motion.div>

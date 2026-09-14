@@ -39,6 +39,8 @@ import ProductDetail from './pages/dashboard/ProductDetail.jsx'
 import Warehouses from './pages/dashboard/Warehouses.jsx'
 import WarehouseForm from './pages/dashboard/WarehouseForm.jsx'
 import WarehouseDetail from './pages/dashboard/WarehouseDetail.jsx'
+import StockAdjustment from './pages/dashboard/StockAdjustment.jsx'
+import TransferStock from './pages/dashboard/TransferStock.jsx'
 
 export default function App() {
   return(
@@ -65,6 +67,9 @@ export default function App() {
               }>
                 <Route index element={<Overview />} />
                 <Route path="inventory" element={<PermissionRoute module="inventory" action="read"><Inventory /></PermissionRoute>} />
+                <Route path="inventory/adjust" element={<PermissionRoute module="inventory" action="write"><StockAdjustment /></PermissionRoute>} />
+<Route path="inventory/transfer" element={<PermissionRoute module="inventory" action="write"><TransferStock /></PermissionRoute>} />
+
                 <Route path="products" element={<PermissionRoute module="products" action="read"><Products /></PermissionRoute>} />
                 <Route path="products/new" element={<PermissionRoute module="products" action="write"><ProductForm /></PermissionRoute>} />
                 <Route path="products/:id" element={<PermissionRoute module="products" action="read"><ProductDetail /></PermissionRoute>} />

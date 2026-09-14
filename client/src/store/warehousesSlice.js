@@ -13,9 +13,9 @@ export const fetchWarehouse = createAsyncThunk('warehouses/fetchWarehouse', asyn
   apiFetch(`/api/warehouses/${id}`)
 )
 
-export const fetchRecentActivity = createAsyncThunk('warehouses/fetchActivity', async() =>{
-  apiFetch(`/api/warehouses/activity`)
-})
+export const fetchRecentActivity = createAsyncThunk('warehouses/fetchActivity', async() =>
+   apiFetch(`/api/warehouses/activity`)
+)
 
 export const createWarehouse = createAsyncThunk('warehouses/createWarehouse', async (payload, { rejectWithValue }) => {
   try {
