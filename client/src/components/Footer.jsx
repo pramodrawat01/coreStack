@@ -25,8 +25,8 @@ const COLUMNS = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-line bg-ink">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
+    <footer className="border-t border-line bg-ink ">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16 pb-0">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
           <div className="col-span-2 sm:col-span-3 lg:col-span-1 flex flex-col gap-4">
             <a href="#top" className="flex items-center gap-2">
@@ -68,6 +68,24 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-14 pt-6 border-t border-line">
           <p className="text-xs text-faint">© {new Date().getFullYear()} Corestack, Inc.</p>
           <p className="text-xs text-faint">All systems operational</p>
+        </div>
+
+        <div className="relative left-1/2 w-screen mt-8  h-[260px] -translate-x-1/2 opacity-20   flex items-end justify-center overflow-hidden">
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/80 to-transparent z-10 pointer-events-none" />
+
+          <div
+            className="
+              whitespace-nowrap
+              text-[22vw]
+              leading-none
+              tracking-[0.04em]
+              text-white
+              font-['Londrina_Outline']
+              translate-y-[13%]
+            "
+          >
+            CORESTACK
+          </div>
         </div>
       </div>
     </footer>

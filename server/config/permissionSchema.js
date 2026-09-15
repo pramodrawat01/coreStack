@@ -11,6 +11,7 @@ export const PERMISSION_SCHEMA = {
   reports:    { label: 'Reports',    actions: ['read'] },
   employees:  { label: 'Team/Employee',       actions: ['read', 'invite'] },
   roles:      { label: 'Roles',      actions: ['manage'] },
+  customers : {label : 'Customers', actions : ['read', 'write']}
 }
 
 // { inventory: { read: true, write: true }, ... } — everything true, used for the Owner role

@@ -12,6 +12,8 @@ import { getProductModel } from '../models/tenant/Product.js'
 import { getWarehouseModel } from '../models/tenant/warehouse.js'
 import { getInventoryTransactionModel } from '../models/tenant/InventoryTransaction.js'
 import { getWarehouseStockModel } from '../models/tenant/WarehouseStock.js'
+import { getCustomerModel } from '../models/tenant/Customer.js'
+import { getSupplierModel } from '../models/tenant/Supplier.js'
 
 
 export  async function protect(req, res, next){
@@ -31,6 +33,8 @@ export  async function protect(req, res, next){
         const Warehouse = getWarehouseModel(conn)
         const InventoryTransaction = getInventoryTransactionModel(conn)
         const WarehouseStock = getWarehouseStockModel(conn)
+        const Customer = getCustomerModel(conn)
+        const Supplier = getSupplierModel(conn)
 
         const user = await User.findById(decoded.userId).populate("role")
         if(!user) return res.status(401).json({message : "Not authenticated!"})
@@ -41,7 +45,7 @@ export  async function protect(req, res, next){
             companyId : decoded.companyId,
             dbName : decoded.dbName,
             connection : conn,
-            models : {User, Role, Product, Warehouse, InventoryTransaction, WarehouseStock}
+            models : {User, Role, Product, Warehouse, InventoryTransaction, WarehouseStock, Customer, Supplier}
         }
         next()
         
@@ -55,7 +59,7 @@ export  async function protect(req, res, next){
 export function requirePermission(module, action){
     return (req, res, next) => {
         const allowed = req.user.role?.permissions?.[module]?.[action] === true
-        console.log(req.user.role?.permissions)
+        // console.log(req.user.role?.permissions)
         console.log(allowed)
         if(!allowed){
             return res.status(403).json({ message: 'You do not have permission to do this' }) 

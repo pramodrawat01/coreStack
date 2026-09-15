@@ -48,7 +48,7 @@ export default function Products() {
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
   return (
-    <div>
+    <div className="">
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-3xl font-semibold">Products</h1>

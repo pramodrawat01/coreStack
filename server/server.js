@@ -8,6 +8,8 @@ import companyRouter from './routes/companyRoutes.js'
 import productRouter from './routes/productRoutes.js'
 import warehouseRoutes from './routes/warehouseRoutes.js'
 import inventoryRouter from './routes/inventoryRoutes.js'
+import customerRouter from './routes/customerRoutes.js'
+import supplierRouter from './routes/supplierRoutes.js'
 
 dotenv.config()
 
@@ -33,6 +35,9 @@ app.use('/api/company', companyRouter)
 app.use('/api/products', productRouter)
 app.use('/api/warehouses', warehouseRoutes)
 app.use('/api/inventory', inventoryRouter)
+app.use('/api/customers', customerRouter)
+app.use('/api/suppliers', supplierRouter)
+
 
 // app.get("/",(req, res)=>{
 //     res.send("server is listening at port 5000")

@@ -27,7 +27,15 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.1] px-5 py-1.5 text-md text-neutral-300 hover:text-white hover:bg-white/[0.08] transition-colors"
           >
-            <span className="h-1.5 w-1.5 rounded-md bg-blue-500" />
+            <span
+    className="
+      
+      h-2.5 w-2.5
+      rounded-full
+      bg-blue-500
+      shadow-[0_0_8px_2px_rgba(59,130,246,0.8)]
+    "
+  />
             See what's new this quarter
           </motion.a>
 

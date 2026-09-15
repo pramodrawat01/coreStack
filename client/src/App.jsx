@@ -41,6 +41,10 @@ import WarehouseForm from './pages/dashboard/WarehouseForm.jsx'
 import WarehouseDetail from './pages/dashboard/WarehouseDetail.jsx'
 import StockAdjustment from './pages/dashboard/StockAdjustment.jsx'
 import TransferStock from './pages/dashboard/TransferStock.jsx'
+import CustomerForm from './pages/dashboard/CustomerForm.jsx'
+import CustomerDetail from './pages/dashboard/CustomerDetail.jsx'
+import SupplierForm from './pages/dashboard/SupplierForm.jsx'
+import SupplierDetail from './pages/dashboard/SupplierDetail.jsx'
 
 export default function App() {
   return(
@@ -68,7 +72,7 @@ export default function App() {
                 <Route index element={<Overview />} />
                 <Route path="inventory" element={<PermissionRoute module="inventory" action="read"><Inventory /></PermissionRoute>} />
                 <Route path="inventory/adjust" element={<PermissionRoute module="inventory" action="write"><StockAdjustment /></PermissionRoute>} />
-<Route path="inventory/transfer" element={<PermissionRoute module="inventory" action="write"><TransferStock /></PermissionRoute>} />
+                <Route path="inventory/transfer" element={<PermissionRoute module="inventory" action="write"><TransferStock /></PermissionRoute>} />
 
                 <Route path="products" element={<PermissionRoute module="products" action="read"><Products /></PermissionRoute>} />
                 <Route path="products/new" element={<PermissionRoute module="products" action="write"><ProductForm /></PermissionRoute>} />
@@ -81,8 +85,18 @@ export default function App() {
                 <Route path="warehouses/:id/edit" element={<PermissionRoute module="warehouses" action="write"><WarehouseForm /></PermissionRoute>} />
 
                 <Route path="orders" element={<Orders />} />
-                <Route path="customers" element={<Customers />} />
+
+                <Route path="customers" element={<PermissionRoute module="customers" action="read"><Customers/></PermissionRoute>} />
+                <Route path="customers/new" element={<PermissionRoute module="customers" action="write"><CustomerForm/></PermissionRoute>} />
+                <Route path="customers/:id" element={<PermissionRoute module="customers" action="read"><CustomerDetail/></PermissionRoute>} />
+                <Route path="customers/:id/edit" element={<PermissionRoute module="customers" action="write"><CustomerForm/></PermissionRoute>} />
+
                 <Route path="suppliers" element={<Suppliers />} />
+                <Route path="suppliers" element={<PermissionRoute module="suppliers" action="read"><Suppliers /></PermissionRoute>} />
+                <Route path="suppliers/new" element={<PermissionRoute module="suppliers" action="write"><SupplierForm /></PermissionRoute>} />
+                <Route path="suppliers/:id" element={<PermissionRoute module="suppliers" action="read"><SupplierDetail /></PermissionRoute>} />
+                <Route path="suppliers/:id/edit" element={<PermissionRoute module="suppliers" action="write"><SupplierForm /></PermissionRoute>} />
+
                 <Route path="purchase-orders" element={<PurchaseOrders />} />
                 <Route path="invoices" element={<Invoices />} />
                 <Route path="payments" element={<Payments />} />
