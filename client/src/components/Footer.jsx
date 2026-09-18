@@ -1,4 +1,5 @@
 import { FaTwitter, FaLinkedin, FaGithub, FaCubes } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 const COLUMNS = [
   {
@@ -29,12 +30,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16 pb-0">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
           <div className="col-span-2 sm:col-span-3 lg:col-span-1 flex flex-col gap-4">
-            <a href="#top" className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2">
               <span className="flex h-7 w-7 items-center justify-center rounded-md bg-white text-ink">
                 <FaCubes size={13} />
               </span>
               <span className="font-semibold tracking-tight text-[15px]">Corestack</span>
-            </a>
+            </Link>
             <p className="text-sm text-faint max-w-[200px]">Run your entire business from one place.</p>
             <div className="flex items-center gap-3 text-faint">
               <a href="#" aria-label="Twitter" className="hover:text-white transition-colors">

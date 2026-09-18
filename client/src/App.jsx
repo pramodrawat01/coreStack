@@ -45,6 +45,13 @@ import CustomerForm from './pages/dashboard/CustomerForm.jsx'
 import CustomerDetail from './pages/dashboard/CustomerDetail.jsx'
 import SupplierForm from './pages/dashboard/SupplierForm.jsx'
 import SupplierDetail from './pages/dashboard/SupplierDetail.jsx'
+import OrderDetail from './pages/dashboard/OrderDetail.jsx'
+import OrderForm from './pages/dashboard/OrderForm.jsx'
+import SolutionsPage from './pages/Solutions.jsx'
+import RootLayout from './layouts/RootLayout.jsx'
+import FeaturesPage from './pages/FeaturesPage.jsx'
+import PricingPage from './pages/PricingPage.jsx'
+import ResourcesPage from './pages/ResourcesPage.jsx'
 
 export default function App() {
   return(
@@ -54,7 +61,13 @@ export default function App() {
         <BrowserRouter>
             <Routes>
               {/** landing page */}
-              <Route path='/' element={<LandingPage/>} />
+              <Route path='/' element={<RootLayout/>} >
+                <Route index element={<LandingPage/>} />
+                <Route path='/solutions' element={<SolutionsPage/>} />
+                <Route path='/features' element={<FeaturesPage/>} />
+                <Route path='/pricing' element={<PricingPage/>}/>
+                <Route path='resources' element={<ResourcesPage/>} />
+              </Route>
 
               <Route path='/auth' element={
                 <PublicRoute>
@@ -84,7 +97,11 @@ export default function App() {
                 <Route path="warehouses/:id" element={<PermissionRoute module="warehouses" action="read"><WarehouseDetail /></PermissionRoute>} />
                 <Route path="warehouses/:id/edit" element={<PermissionRoute module="warehouses" action="write"><WarehouseForm /></PermissionRoute>} />
 
-                <Route path="orders" element={<Orders />} />
+                <Route path="orders" element={<PermissionRoute module="orders" action="read"> <Orders/></PermissionRoute>} />
+                <Route path="orders/:id" element={<PermissionRoute module="orders" action="read"> <OrderDetail/> </PermissionRoute>} />
+                <Route path="orders/new" element={<PermissionRoute module="orders" action="write"> <OrderForm/></PermissionRoute>} />
+                <Route path="orders/:id/edit" element={<PermissionRoute module="orders" action="write"> <OrderDetail/> </PermissionRoute>} />
+
 
                 <Route path="customers" element={<PermissionRoute module="customers" action="read"><Customers/></PermissionRoute>} />
                 <Route path="customers/new" element={<PermissionRoute module="customers" action="write"><CustomerForm/></PermissionRoute>} />

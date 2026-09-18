@@ -1,5 +1,4 @@
-import Navbar from '../components/Navbar.jsx'
-import Footer from '../components/Footer.jsx'
+
 import Hero from '../sections/Hero.jsx'
 import TrustedBy from '../sections/TrustedBy.jsx'
 import ProblemValue from '../sections/ProblemValue.jsx'
@@ -10,9 +9,7 @@ import CTA from '../sections/CTA.jsx'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-ink text-white">
-      <Navbar />
-      <main>
+    <>
         <Hero />
         <TrustedBy />
         <ProblemValue />
@@ -20,8 +17,6 @@ export default function LandingPage() {
         <ProductShowcaseSection />
         <EnterpriseSection />
         <CTA />
-      </main>
-      <Footer />
-    </div>
+      </>
   )
 }
