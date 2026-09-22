@@ -10,6 +10,7 @@ import warehouseRoutes from './routes/warehouseRoutes.js'
 import inventoryRouter from './routes/inventoryRoutes.js'
 import customerRouter from './routes/customerRoutes.js'
 import supplierRouter from './routes/supplierRoutes.js'
+import orderRouter from './routes/orderRoutes.js'
 
 dotenv.config()
 
@@ -37,6 +38,8 @@ app.use('/api/warehouses', warehouseRoutes)
 app.use('/api/inventory', inventoryRouter)
 app.use('/api/customers', customerRouter)
 app.use('/api/suppliers', supplierRouter)
+app.use('/api/orders', orderRouter)
+
 
 
 // app.get("/",(req, res)=>{

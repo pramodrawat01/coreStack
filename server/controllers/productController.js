@@ -83,16 +83,64 @@ export async function getProduct(req, res) {
 export async function createProduct(req, res){
 
         // NOT authenticating the req.body here
+    const {Product,  WarehouseStock} = req.tenant.models
+    const { sku, warehouseStocks, ...rest} = req.body
 
-
-    const {sku} = req.body
-    const existing = await req.tenant.models.Product.findOne({sku : sku.toUpperCase()})
+    const existing = await Product.findOne({sku : sku.toUpperCase()})
       if (existing) return res.status(400).json({ message: 'A product with this SKU already exists' })
+
+    const validStocks = Array.isArray(warehouseStocks)
+        ? warehouseStocks.filter( (w) => w.warehouseId && Number(w.quantity) > 0)
+        : []
+
+    let productData = {...rest, sku}
     
-        //// right now we are not taking imges - leter we will integrate this
-    const product = await req.tenant.models.Product.create(req.body)
+     if (validStocks.length > 0) {
+        const primary = [...validStocks].sort((a, b) => Number(b.quantity) - Number(a.quantity))[0]
+        productData.warehouse = primary.warehouseId
+        productData.stockQuantity = validStocks.reduce((sum, w) => sum + Number(w.quantity), 0)
+    }
+
+    //// right now we are not taking imges - leter we will integrate this
+
+    const product = await Product.create(productData)
+    if(validStocks.length > 0){
+        await WarehouseStock.insertMany(
+            validStocks.map((w) => ( { product : product._id, warehouse : w.warehouseId, quantity : Number(w.quantity)}))
+        )
+    }
+
     res.status(201).json(withStatus(product))
 
+}
+
+// POST /api/products/:id/warehouses — assign a product to a warehouse it isn't already
+// in, with an initial quantity. NEW assignments only — to change the quantity of a
+// warehouse a product is already in, use Inventory's Stock Adjustment (that's what keeps
+// InventoryTransaction as the real audit trail; this doesn't log a transaction, same as
+// the initial creation seed).
+export async function addProductWarehouse(req, res) {
+  const { Product, WarehouseStock } = req.tenant.models
+  const { warehouseId, quantity } = req.body
+
+  const qty = Number(quantity)
+  if (!warehouseId || !Number.isFinite(qty) || qty < 0) {
+    return res.status(400).json({ message: 'A warehouse and a valid quantity are required' })
+  }
+
+  const product = await Product.findById(req.params.id)
+  if (!product) return res.status(404).json({ message: 'Product not found' })
+
+  const existingRow = await WarehouseStock.findOne({ product: product._id, warehouse: warehouseId })
+  if (existingRow) {
+    return res.status(400).json({ message: 'This product is already assigned to that warehouse — use Stock Adjustment to change its quantity' })
+  }
+
+  await WarehouseStock.create({ product: product._id, warehouse: warehouseId, quantity: qty })
+  await recomputeProductTotal({ Product, WarehouseStock }, product._id)
+
+  const updated = await Product.findById(product._id)
+  res.status(201).json(withStatus(updated))
 }
 
 /// while creating or updating product we have to keep many things in mind 

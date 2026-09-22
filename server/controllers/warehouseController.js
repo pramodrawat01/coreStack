@@ -1,9 +1,19 @@
-async function withComputedStats(warehouseDoc, Product) {
-  const warehouse = warehouseDoc.toObject ? warehouseDoc.toObject() : warehouseDoc
-  const products = await Product.find({ warehouse: warehouse._id }).select('stockQuantity').lean()
+async function withComputedStats(warehouseDoc, WarehouseStock) {
+  // const warehouse = warehouseDoc.toObject ? warehouseDoc.toObject() : warehouseDoc
+  
+  // const products = await Product.find({ warehouse: warehouse._id }).select('stockQuantity').lean()
 
-  const skusHeld = products.length
-  const onHandUnits = products.reduce((sum, p) => sum + (p.stockQuantity || 0), 0)
+  // const skusHeld = products.length
+  // const onHandUnits = products.reduce((sum, p) => sum + (p.stockQuantity || 0), 0)
+
+
+  const warehouse = warehouseDoc.toObject ? warehouseDoc.toObject() : warehouseDoc
+  const rows = await WarehouseStock.find({ warehouse: warehouse._id }).select('quantity').lean()
+
+  const skusHeld = rows.length
+  const onHandUnits = rows.reduce((sum, r) => sum + (r.quantity || 0), 0)
+
+
   const percentFull = warehouse.storageCapacity > 0
     ? Math.min(100, Math.round((onHandUnits / warehouse.storageCapacity) * 100))
     : 0
@@ -13,23 +23,39 @@ async function withComputedStats(warehouseDoc, Product) {
 
 // GET /api/warehouses
 export async function listWarehouses(req, res) {
-  const { Warehouse, Product } = req.tenant.models
+  // const { Warehouse, Product } = req.tenant.models
+  // const warehouses = await Warehouse.find().sort({ createdAt: -1 }).lean()
+  // const withStats = await Promise.all(warehouses.map((w) => withComputedStats(w, Product)))
+
+  const { Warehouse, WarehouseStock } = req.tenant.models
   const warehouses = await Warehouse.find().sort({ createdAt: -1 }).lean()
-  const withStats = await Promise.all(warehouses.map((w) => withComputedStats(w, Product)))
+  const withStats = await Promise.all(warehouses.map((w) => withComputedStats(w, WarehouseStock)))
   res.json(withStats)
 }
 
 // GET /api/warehouses/summary — the four top stat cards
 export async function getWarehouseSummary(req, res) {
-  const { Warehouse, Product } = req.tenant.models
+  // const { Warehouse, Product } = req.tenant.models
+  // const warehouses = await Warehouse.find().lean()
+
+  // const activeFacilities = warehouses.filter((w) => w.status === 'Active').length
+  // const totalCapacity = warehouses.reduce((sum, w) => sum + (w.storageCapacity || 0), 0)
+
+  // const products = await Product.find({ warehouse: { $ne: null } }).select('stockQuantity cost warehouse').lean()
+  // const stockValueHeld = products.reduce((sum, p) => sum + (p.stockQuantity || 0) * (p.cost || 0), 0)
+  // const totalOnHand = products.reduce((sum, p) => sum + (p.stockQuantity || 0), 0)
+
+  const { Warehouse, WarehouseStock } = req.tenant.models
   const warehouses = await Warehouse.find().lean()
 
   const activeFacilities = warehouses.filter((w) => w.status === 'Active').length
   const totalCapacity = warehouses.reduce((sum, w) => sum + (w.storageCapacity || 0), 0)
 
-  const products = await Product.find({ warehouse: { $ne: null } }).select('stockQuantity cost warehouse').lean()
-  const stockValueHeld = products.reduce((sum, p) => sum + (p.stockQuantity || 0) * (p.cost || 0), 0)
-  const totalOnHand = products.reduce((sum, p) => sum + (p.stockQuantity || 0), 0)
+  const rows = await WarehouseStock.find().populate('product', 'cost').lean()
+  const validRows = rows.filter((r) => r.product)
+  const stockValueHeld = validRows.reduce((sum, r) => sum + (r.quantity || 0) * (r.product.cost || 0), 0)
+  const totalOnHand = validRows.reduce((sum, r) => sum + (r.quantity || 0), 0)
+
   const utilizationPct = totalCapacity > 0 ? Math.round((totalOnHand / totalCapacity) * 100) : 0
 
   res.json({
@@ -43,10 +69,16 @@ export async function getWarehouseSummary(req, res) {
 
 // GET /api/warehouses/:id
 export async function getWarehouse(req, res) {
-  const { Warehouse, Product } = req.tenant.models
+  // const { Warehouse, Product } = req.tenant.models
+  // const warehouse = await Warehouse.findById(req.params.id)
+  // if (!warehouse) return res.status(404).json({ message: 'Warehouse not found' })
+  // res.json(await withComputedStats(warehouse, Product))
+
+
+  const { Warehouse, WarehouseStock } = req.tenant.models
   const warehouse = await Warehouse.findById(req.params.id)
   if (!warehouse) return res.status(404).json({ message: 'Warehouse not found' })
-  res.json(await withComputedStats(warehouse, Product))
+  res.json(await withComputedStats(warehouse, WarehouseStock))
 }
 
 
@@ -68,7 +100,7 @@ export async function getRecentActivity(req, res) {
 // POST /api/warehouses
 export async function createWarehouse(req, res) {
   const warehouse = await req.tenant.models.Warehouse.create(req.body)
-  res.status(201).json(await withComputedStats(warehouse, req.tenant.models.Product))
+  res.status(201).json(await withComputedStats(warehouse, req.tenant.models.WarehouseStock))
 }
 
 // PATCH /api/warehouses/:id
@@ -78,18 +110,28 @@ export async function updateWarehouse(req, res) {
 
   Object.assign(warehouse, req.body)
   await warehouse.save()
-  res.json(await withComputedStats(warehouse, req.tenant.models.Product))
+  res.json(await withComputedStats(warehouse, req.tenant.models.WarehouseStock))
 }
 
 // DELETE /api/warehouses/:id
 export async function deleteWarehouse(req, res) {
-  const { Warehouse, Product } = req.tenant.models
+  // const { Warehouse, Product } = req.tenant.models
+  // const warehouse = await Warehouse.findById(req.params.id)
+  // if (!warehouse) return res.status(404).json({ message: 'Warehouse not found' })
+
+  // const inUse = await Product.exists({ warehouse: warehouse._id })
+  // if (inUse) return res.status(400).json({ message: 'Cannot delete a warehouse that has products assigned to it' })
+
+
+  const { Warehouse, WarehouseStock } = req.tenant.models
   const warehouse = await Warehouse.findById(req.params.id)
   if (!warehouse) return res.status(404).json({ message: 'Warehouse not found' })
 
-  const inUse = await Product.exists({ warehouse: warehouse._id })
-  if (inUse) return res.status(400).json({ message: 'Cannot delete a warehouse that has products assigned to it' })
+  // A product with a stock row here — even 0 quantity — still counts as "assigned":
+  // deleting the warehouse out from under it would orphan that row.
+  const inUse = await WarehouseStock.exists({ warehouse: warehouse._id })
 
+  
   await warehouse.deleteOne()
   res.json({ message: 'Warehouse deleted' })
 }

@@ -22,6 +22,15 @@ export const createProduct = createAsyncThunk('products/createProduct', async (p
   }
 })
 
+export const addProductWarehouse = createAsyncThunk( 'products/addProductWarehouse', async ({ id, warehouseId, quantity }, { rejectWithValue }) => {
+    try {
+      return await apiFetch(`/api/products/${id}/warehouses`, { method: 'POST', body: { warehouseId, quantity } })
+    } catch (err) {
+      return rejectWithValue(err.message)
+    }
+  }
+)
+
 export const updateProduct = createAsyncThunk('products/updateProduct', async ({ id, ...payload }, { rejectWithValue }) => {
   try {
     return await apiFetch(`/api/products/${id}`, { method: 'PATCH', body: payload })
@@ -74,6 +83,9 @@ const productsSlice = createSlice({
         state.current = action.payload
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
+        state.current = action.payload
+      })
+      .addCase( addProductWarehouse.fulfilled, (state, action) => {
         state.current = action.payload
       })
       .addMatcher(

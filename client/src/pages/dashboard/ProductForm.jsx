@@ -6,11 +6,13 @@ import {
   fetchProduct,
   createProduct,
   updateProduct,
+  addProductWarehouse,
   clearCurrentProduct,
 } from "../../store/productsSlice.js";
 import { notifySuccess, notifyError } from "../../lib/toast.js";
 import { fetchWarehouses } from "../../store/warehousesSlice.js";
 import CustomDropdown from "../../components/common/CustomDropdown.jsx";
+import { clearProductStock, fetchProductStock } from "../../store/inventorySlice.js";
 
 const CATEGORY_OPTIONS = [
   "Hardware",
@@ -35,6 +37,9 @@ const EMPTY_FORM = {
   isActive: true,
 };
 
+// One row per warehouse this product is being stocked in at creation time.
+const EMPTY_WAREHOUSE_ROW = { warehouseId: "", quantity: "" };
+
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -56,12 +61,27 @@ export default function ProductForm() {
   const [imagePreview, setImagePreview] = useState(null);
   const [saving, setSaving] = useState(false);
 
+  const { productStock } = useSelector((s) => s.inventory);
+  // Create mode: one row per warehouse to seed stock into.
+  const [warehouseRows, setWarehouseRows] = useState([EMPTY_WAREHOUSE_ROW]);
+
+  // Edit mode: a small form for assigning the product to a warehouse it isn't in yet.
+  const [newWarehouseId, setNewWarehouseId] = useState("");
+  const [newWarehouseQty, setNewWarehouseQty] = useState("");
+  const [addingWarehouse, setAddingWarehouse] = useState(false);
+
   useEffect(() => {
     dispatch(fetchWarehouses());
   }, [dispatch]);
+
   useEffect(() => {
     if (isEdit) dispatch(fetchProduct(id));
     return () => dispatch(clearCurrentProduct());
+  }, [dispatch, id, isEdit]);
+
+  useEffect(() => {
+    if (isEdit) dispatch(fetchProductStock(id));
+    return () => dispatch(clearProductStock());
   }, [dispatch, id, isEdit]);
 
   useEffect(() => {
@@ -100,6 +120,55 @@ export default function ProductForm() {
     setImagePreview(base64);
   };
 
+  const updateWarehouseRow = (index, field, value) => {
+    setWarehouseRows((rows) =>
+      rows.map((r, i) => (i === index ? { ...r, [field]: value } : r)),
+    );
+  };
+  const addWarehouseRow = () =>
+    setWarehouseRows((rows) => [...rows, EMPTY_WAREHOUSE_ROW]);
+  const removeWarehouseRow = (index) =>
+    setWarehouseRows((rows) =>
+      rows.length > 1 ? rows.filter((_, i) => i !== index) : rows,
+    );
+
+  const usedWarehouseIds = (excludeIndex) =>
+    new Set(
+      warehouseRows
+        .filter((_, i) => i !== excludeIndex)
+        .map((r) => r.warehouseId)
+        .filter(Boolean),
+    );
+
+  const handleAddWarehouse = async () => {
+    if (!newWarehouseId || !newWarehouseQty || Number(newWarehouseQty) < 0) {
+      notifyError("Pick a warehouse and enter a quantity");
+      return;
+    }
+    setAddingWarehouse(true);
+    try {
+      await dispatch(
+        addProductWarehouse({
+          id,
+          warehouseId: newWarehouseId,
+          quantity: Number(newWarehouseQty),
+        }),
+      ).unwrap();
+      notifySuccess("Added to warehouse");
+      dispatch(fetchProductStock(id));
+      setNewWarehouseId("");
+      setNewWarehouseQty("");
+    } catch (err) {
+      notifyError(err || "Could not add warehouse");
+    } finally {
+      setAddingWarehouse(false);
+    }
+  };
+
+  const availableWarehousesToAdd = warehouses.filter(
+    (w) => !productStock.some((r) => r.warehouse._id === w._id),
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -108,15 +177,45 @@ export default function ProductForm() {
       return;
     }
 
+    // const payload = {
+    //   ...form,
+    //   price: Number(form.price) || 0,
+    //   cost: Number(form.cost) || 0,
+    //   stockQuantity: Number(form.stockQuantity) || 0,
+    //   reorderPoint: Number(form.reorderPoint) || 0,
+    //   weight: Number(form.weight) || 0,
+    //   images: imagePreview ? [imagePreview] : [],
+    // };
+
+    const validRows = warehouseRows.filter(
+      (r) => r.warehouseId && Number(r.quantity) >= 0 && r.quantity !== "",
+    );
+    if (!isEdit && validRows.length === 0) {
+      notifyError(
+        "Assign the product to at least one warehouse with a quantity",
+      );
+      return;
+    }
+
     const payload = {
       ...form,
       price: Number(form.price) || 0,
       cost: Number(form.cost) || 0,
-      stockQuantity: Number(form.stockQuantity) || 0,
       reorderPoint: Number(form.reorderPoint) || 0,
       weight: Number(form.weight) || 0,
       images: imagePreview ? [imagePreview] : [],
     };
+
+    if (!isEdit) {
+      delete payload.stockQuantity;
+      delete payload.warehouse;
+      payload.warehouseStocks = validRows.map((r) => ({
+        warehouseId: r.warehouseId,
+        quantity: Number(r.quantity),
+      }));
+    } else {
+      payload.stockQuantity = Number(form.stockQuantity) || 0;
+    }
 
     setSaving(true);
     try {
@@ -288,7 +387,7 @@ export default function ProductForm() {
               </div>
             </label>
 
-            <label className="flex flex-col gap-1.5">
+            {/* <label className="flex flex-col gap-1.5">
               <span className="text-xs font-medium text-muted">
                 Stock quantity
               </span>
@@ -301,7 +400,18 @@ export default function ProductForm() {
                 required
                 className="rounded-md border border-line bg-surface px-3 py-2.5 text-sm text-white outline-none focus:border-accent2"
               />
-            </label>
+            </label> */}
+
+            {isEdit && (
+              <label className="flex flex-col gap-1.5">
+                <span className="text-xs font-medium text-muted">Total stock quantity</span>
+                <input type="number" value={form.stockQuantity} disabled
+                  className="rounded-md border border-line bg-surface/50 px-3 py-2.5 text-sm text-faint outline-none cursor-not-allowed" />
+                <span className="text-[11px] text-faint">
+                  Sum across every warehouse below — change it via Inventory's Stock Adjustment, not here.
+                </span>
+              </label>
+            )}
 
             <label className="flex flex-col gap-1.5">
               <span className="text-xs font-medium text-muted">
@@ -332,7 +442,7 @@ export default function ProductForm() {
               />
             </label>
 
-            <label className="flex flex-col gap-1.5">
+            {/* <label className="flex flex-col gap-1.5">
               <span className="text-xs font-medium text-muted">Warehouse</span>
               <CustomDropdown
                 options={[
@@ -348,7 +458,76 @@ export default function ProductForm() {
                 }
                 className="w-full"
               />
-            </label>
+            </label> */}
+
+            {!isEdit ? (
+  <div className="flex flex-col gap-2">
+    <span className="text-xs font-medium text-muted">Warehouses &amp; starting quantity</span>
+    {warehouseRows.map((row, index) => {
+      const used = usedWarehouseIds(index);
+      return (
+        <div key={index} className="flex gap-2 items-start">
+          <div className="flex-1">
+            <CustomDropdown
+              options={warehouses.filter((w) => !used.has(w._id)).map((w) => ({ value: w._id, label: w.name }))}
+              value={row.warehouseId}
+              onChange={(value) => updateWarehouseRow(index, "warehouseId", value)}
+              placeholder="Select warehouse"
+              className="w-full"
+            />
+          </div>
+          <input type="number" min="0" placeholder="Qty" value={row.quantity}
+            onChange={(e) => updateWarehouseRow(index, "quantity", e.target.value)}
+            className="w-24 rounded-md border border-line bg-surface px-3 py-2.5 text-sm text-white outline-none focus:border-accent2" />
+          <button type="button" onClick={() => removeWarehouseRow(index)} disabled={warehouseRows.length === 1}
+            className="rounded-md border border-line px-2.5 py-2.5 text-faint hover:text-white disabled:opacity-30 disabled:cursor-not-allowed">
+            <FaTimes size={11} />
+          </button>
+        </div>
+      );
+    })}
+    <button type="button" onClick={addWarehouseRow} className="self-start text-xs text-accent2 hover:underline mt-1">
+      + Add another warehouse
+    </button>
+  </div>
+) : (
+  <div className="flex flex-col gap-2">
+    <span className="text-xs font-medium text-muted">Stock by warehouse</span>
+    <div className="rounded-md border border-line bg-surface divide-y divide-line">
+      {productStock.length === 0 ? (
+        <p className="px-3 py-2.5 text-sm text-faint">Not yet assigned to a warehouse.</p>
+      ) : (
+        productStock.map((r) => (
+          <div key={r.warehouse._id} className="flex items-center justify-between px-3 py-2.5 text-sm">
+            <span className="text-white">{r.warehouse.name}</span>
+            <span className="text-faint">{r.quantity} units</span>
+          </div>
+        ))
+      )}
+    </div>
+
+    {availableWarehousesToAdd.length > 0 && (
+      <div className="flex gap-2 items-center mt-1">
+        <div className="flex-1">
+          <CustomDropdown
+            options={availableWarehousesToAdd.map((w) => ({ value: w._id, label: w.name }))}
+            value={newWarehouseId}
+            onChange={setNewWarehouseId}
+            placeholder="Add to another warehouse"
+            className="w-full"
+          />
+        </div>
+        <input type="number" min="0" placeholder="Qty" value={newWarehouseQty}
+          onChange={(e) => setNewWarehouseQty(e.target.value)}
+          className="w-20 rounded-md border border-line bg-surface px-3 py-2.5 text-sm text-white outline-none focus:border-accent2" />
+        <button type="button" onClick={handleAddWarehouse} disabled={addingWarehouse}
+          className="rounded-md border border-line px-3 py-2.5 text-sm text-white hover:border-white/40 disabled:opacity-60">
+          {addingWarehouse ? "Adding…" : "Add"}
+        </button>
+      </div>
+    )}
+  </div>
+)}
 
             <label className="flex flex-col gap-1.5">
               <span className="text-xs font-medium text-muted">Supplier</span>
