@@ -75,7 +75,15 @@ export async function listCategories(req, res) {
 export async function getProduct(req, res) {
     const product = await req.tenant.models.Product.findById(req.params.id)
     if (!product) return res.status(404).json({ message: 'Product not found' })
-  res.json(withStatus(product))
+    
+    const warehouses = await req.tenant.models.WarehouseStock
+        .find({ product : req.params.id})
+        .populate("warehouse", "name")
+
+  res.json({
+    product : withStatus(product),
+    warehouses,
+  })
 }
 
 // POST /api/products

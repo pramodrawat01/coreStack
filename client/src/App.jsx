@@ -52,6 +52,8 @@ import RootLayout from './layouts/RootLayout.jsx'
 import FeaturesPage from './pages/FeaturesPage.jsx'
 import PricingPage from './pages/PricingPage.jsx'
 import ResourcesPage from './pages/ResourcesPage.jsx'
+import PurchaseOrderForm from './pages/dashboard/PurchaseOrderForm.jsx'
+import PurchaseOrderDetail from './pages/dashboard/PurchaseOrderDetail.jsx'
 
 export default function App() {
   return(
@@ -114,7 +116,10 @@ export default function App() {
                 <Route path="suppliers/:id" element={<PermissionRoute module="suppliers" action="read"><SupplierDetail /></PermissionRoute>} />
                 <Route path="suppliers/:id/edit" element={<PermissionRoute module="suppliers" action="write"><SupplierForm /></PermissionRoute>} />
 
-                <Route path="purchase-orders" element={<PurchaseOrders />} />
+                <Route path="purchase-orders" element={<PermissionRoute module ="purchases" action="read"> <PurchaseOrders/> </PermissionRoute>} />
+                <Route path="purchase-orders/new" element={<PermissionRoute module ="purchases" action="write"> <PurchaseOrderForm/> </PermissionRoute>} />
+                <Route path="purchase-orders/:id" element={<PermissionRoute module ="purchases" action="read"> <PurchaseOrderDetail/> </PermissionRoute>} />
+
                 <Route path="invoices" element={<Invoices />} />
                 <Route path="payments" element={<Payments />} />
                 <Route path="reports" element={<Reports />} />

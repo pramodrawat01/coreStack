@@ -11,6 +11,7 @@ import inventoryRouter from './routes/inventoryRoutes.js'
 import customerRouter from './routes/customerRoutes.js'
 import supplierRouter from './routes/supplierRoutes.js'
 import orderRouter from './routes/orderRoutes.js'
+import purchaseOrderRouter from './routes/purchaseOrderRoutes.js'
 
 dotenv.config()
 
@@ -39,6 +40,7 @@ app.use('/api/inventory', inventoryRouter)
 app.use('/api/customers', customerRouter)
 app.use('/api/suppliers', supplierRouter)
 app.use('/api/orders', orderRouter)
+app.use('/api/purchase-orders', purchaseOrderRouter)
 
 
 

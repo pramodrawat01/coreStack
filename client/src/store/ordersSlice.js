@@ -38,6 +38,23 @@ export const createOrder = createAsyncThunk(
   }
 );
 
+
+export const updateOrder = createAsyncThunk('orders/updateOrder', async ({ id, ...payload }, { rejectWithValue }) => {
+  try { return await apiFetch(`/api/orders/${id}`, { method: 'PUT', body: payload }); }
+  catch (err) { return rejectWithValue(err.message || 'Failed to update order'); }
+});
+
+export const shipOrder = createAsyncThunk('orders/shipOrder', async (id, { rejectWithValue }) => {
+  try { return await apiFetch(`/api/orders/${id}/ship`, { method: 'POST' }); }
+  catch (err) { return rejectWithValue(err.message || 'Failed to ship order'); }
+});
+
+export const deliverOrder = createAsyncThunk('orders/deliverOrder', async (id, { rejectWithValue }) => {
+  try { return await apiFetch(`/api/orders/${id}/deliver`, { method: 'POST' }); }
+  catch (err) { return rejectWithValue(err.message || 'Failed to mark delivered'); }
+});
+
+
 const ordersSlice = createSlice({
   name: 'orders',
   initialState: {
@@ -80,6 +97,14 @@ const ordersSlice = createSlice({
       .addCase(createOrder.fulfilled, (state, action) => {
         state.items.unshift(action.payload);
       })
+      .addMatcher(
+        (action) => [updateOrder, shipOrder, deliverOrder].some((thunk) => thunk.fulfilled.match(action)),
+        (state, action) => {
+          state.currentOrder = action.payload;
+          const index = state.items.findIndex((item) => item._id === action.payload._id);
+          if (index !== -1) state.items[index] = action.payload;
+        }
+      )
       .addMatcher(
         (action) => action.type.endsWith('/rejected') && action.type.startsWith('orders/'),
         (state, action) => {

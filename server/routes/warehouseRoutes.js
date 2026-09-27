@@ -9,7 +9,7 @@ const router = express.Router()
 router.use(protect)
 
 router.get('/summary', requirePermission('warehouses', 'read'), getWarehouseSummary)
-router.get('/activity', requirePermission('warehouses', getRecentActivity))
+router.get('/activity', requirePermission('warehouses', 'read'), getRecentActivity)
 router.get('/', requirePermission('warehouses', 'read'), listWarehouses)
 router.get('/:id', requirePermission('warehouses', 'read'), getWarehouse)
 router.post('/', requirePermission('warehouses', 'write'), createWarehouse)

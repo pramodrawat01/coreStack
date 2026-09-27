@@ -21,10 +21,11 @@ export default function Hero() {
       {/* Hero Content */}
       <div className="relative z-10 max-w-7xl  mx-auto px-5 sm:px-8 pt-20 sm:pt-26   pb-12 flex-1 flex flex-col justify-center items-center">
         <div className="flex flex-col items-center text-center gap-6 max-w-4xl mx-auto ">
-          <motion.a
-            href="#features"
+          <motion.p
+           
             initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }
+          }
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.1] px-5 py-1.5 text-md text-neutral-300 hover:text-white hover:bg-white/[0.08] transition-colors"
           >
@@ -35,8 +36,11 @@ export default function Hero() {
               {/* The solid center dot with your original glow */}
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_2px_rgba(59,130,246,0.8)]"></span>
             </span>
-            Corestack 2.0 is Live now : Track Operations & Update
-          </motion.a>
+            {/* Corestack 2.0 is Live now : Track Operations & Update */}
+          corestack <span className="bg-gradient-to-r font-bold from-blue-400 via-sky-300 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+              1.0
+            </span>{" "} Comming soon : Track Operations & Update
+          </motion.p>
 
           <motion.h1
             initial={{ opacity: 0, y: 12 }}

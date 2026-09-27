@@ -12,6 +12,15 @@ const STYLES = {
   'Pending invite': 'text-amber-400 bg-amber-400/10',
   Suspended: 'text-red-400 bg-red-400/10',
   Overdue: 'text-red-400 bg-red-400/10',
+  Approved: 'text-emerald-400 bg-emerald-400/10',
+  'In transit': 'text-amber-400 bg-amber-400/10',
+  'Pending approval': 'text-orange-400 bg-orange-400/10',
+  Received: 'text-accent2 bg-accent2/10',
+  Draft: 'text-faint bg-white/[0.06]',
+  Cancelled: 'text-red-400 bg-red-400/10',
+  Paid: 'text-emerald-400 bg-emerald-400/10',
+  Refunded: 'text-faint bg-white/[0.06]',
+  Failed: 'text-red-400 bg-red-400/10',
 }
 
 export default function StatusBadge({ status }) {

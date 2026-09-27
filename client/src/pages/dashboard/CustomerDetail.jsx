@@ -7,6 +7,7 @@ import {
   FaMapMarkerAlt,
   FaEnvelope,
   FaArrowLeft,
+  FaTrash,
 } from "react-icons/fa";
 import { fetchCustomerById } from "../../store/customersSlice";
 import StatusBadge from "../../components/dashboard/StatusBadge";
@@ -40,14 +41,31 @@ export default function CustomerDetail() {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <button
-        onClick={() => navigate('/dashboard/customers')}
-        className="flex items-center gap-2 text-sm text-faint hover:text-white transition-colors mb-3"
-      >
-        <FaArrowLeft size={11} />
-        Warehouses
-        {" / "}
-      </button>
+      <div className="flex  justify-between">
+        <button
+          onClick={() => navigate('/dashboard/customers')}
+          className="flex items-center gap-2 text-sm text-faint hover:text-white transition-colors mb-3"
+        >
+          <FaArrowLeft size={11} />
+          Customers
+          {" / "}
+        </button>
+         <div className="flex gap-3">
+          
+          {canWrite && (
+            <button
+              onClick={() => navigate(`/dashboard/customers/${id}/edit`)}
+              className="flex items-center gap-2 rounded-lg bg-accent2 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
+            >
+              <FaEdit size={12} /> Edit client
+            </button>
+          )}
+           <button className="flex items-center gap-2 rounded-md bg-red-500/10 border border-red-500/30 px-4 py-2 text-sm text-red-400 hover:bg-red-500/15 transition-colors">
+                      <FaTrash size={11} /> Delete
+                    </button>
+        </div>
+
+      </div>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-white">
@@ -61,17 +79,7 @@ export default function CustomerDetail() {
             })}
           </p>
         </div>
-        <div className="flex gap-3">
-          
-          {canWrite && (
-            <button
-              onClick={() => navigate(`/dashboard/customers/${id}/edit`)}
-              className="flex items-center gap-2 rounded-lg bg-accent2 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
-            >
-              <FaEdit size={12} /> Edit client
-            </button>
-          )}
-        </div>
+       
       </div>
 
       {/* Main Profile Header */}

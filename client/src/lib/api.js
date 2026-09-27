@@ -1,3 +1,5 @@
+import { notifyError } from "./toast"
+
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 export async function apiFetch(path, { method = 'GET', body } = {}) {
@@ -13,6 +15,7 @@ export async function apiFetch(path, { method = 'GET', body } = {}) {
 
   if (!res.ok) {
     console.log(data.message)
+    notifyError(data.message)
     throw new Error(data.message || 'Something went wrong in network call')
   }
 

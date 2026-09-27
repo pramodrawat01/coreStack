@@ -15,6 +15,7 @@ import { getWarehouseStockModel } from '../models/tenant/WarehouseStock.js'
 import { getCustomerModel } from '../models/tenant/Customer.js'
 import { getSupplierModel } from '../models/tenant/Supplier.js'
 import { getOrderModel } from '../models/tenant/Order.js'
+import { getPurchaseOrderModel } from '../models/tenant/PurchaseOrder.js'
 
 
 export  async function protect(req, res, next){
@@ -37,6 +38,7 @@ export  async function protect(req, res, next){
         const Customer = getCustomerModel(conn)
         const Supplier = getSupplierModel(conn)
         const Order = getOrderModel(conn)
+        const PurchaseOrder = getPurchaseOrderModel(conn)
 
         const user = await User.findById(decoded.userId).populate("role")
         if(!user) return res.status(401).json({message : "Not authenticated!"})
@@ -47,7 +49,7 @@ export  async function protect(req, res, next){
             companyId : decoded.companyId,
             dbName : decoded.dbName,
             connection : conn,
-            models : {User, Role, Product, Warehouse, InventoryTransaction, WarehouseStock, Customer, Supplier, Order}
+            models : {User, Role, Product, Warehouse, InventoryTransaction, WarehouseStock, Customer, Supplier, Order, PurchaseOrder}
         }
         next()
         
