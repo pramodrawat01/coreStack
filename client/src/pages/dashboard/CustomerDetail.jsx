@@ -66,6 +66,7 @@ export default function CustomerDetail() {
         </div>
 
       </div>
+      
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-white">

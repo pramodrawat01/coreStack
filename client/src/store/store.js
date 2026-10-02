@@ -8,6 +8,8 @@ import customerReducer from './customersSlice.js'
 import supplierReducer from './suppliersSlice.js'
 import orderReducer from './ordersSlice.js'
 import purchaseOrdersReducer from './purchaseOrdersSlice.js'
+import invoiceReducer from './invoicesSlice.js'
+import paymentReducer from './paymentsSlice.js'
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +22,7 @@ export const store = configureStore({
     suppliers : supplierReducer,
     orders : orderReducer,
     purchaseOrders : purchaseOrdersReducer,
+    invoices : invoiceReducer,
+    payments : paymentReducer,
   },
 })  

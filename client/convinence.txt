@@ -1,0 +1,3 @@
+- creating the payment module 
+
+Note on scope: the Record Payment form (Screen 16) only collects method, reference, deposit account and notes — no transaction ID, processor, or settlement date, because there's no real payment gateway wired in yet. Those fields default to blank/"Manual"/same-day. A manually recorded payment always comes in as succeeded; pending/failed would come from a real gateway webhook later, and refunded only happens through the refund action.
