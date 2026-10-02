@@ -54,6 +54,12 @@ import PricingPage from './pages/PricingPage.jsx'
 import ResourcesPage from './pages/ResourcesPage.jsx'
 import PurchaseOrderForm from './pages/dashboard/PurchaseOrderForm.jsx'
 import PurchaseOrderDetail from './pages/dashboard/PurchaseOrderDetail.jsx'
+import InvoiceList from './pages/dashboard/invoices/InvoiceList.jsx'
+import InvoiceForm from './pages/dashboard/invoices/InvoiceForm.jsx'
+import InvoiceDetail from './pages/dashboard/invoices/InvoiceDetail.jsx'
+import PaymentList from './pages/dashboard/payments/PaymentList.jsx'
+import RecordPayment from './pages/dashboard/payments/RecordPayment.jsx'
+import PaymentDetail from './pages/dashboard/payments/PaymentDetail.jsx'
 
 export default function App() {
   return(
@@ -120,8 +126,16 @@ export default function App() {
                 <Route path="purchase-orders/new" element={<PermissionRoute module ="purchases" action="write"> <PurchaseOrderForm/> </PermissionRoute>} />
                 <Route path="purchase-orders/:id" element={<PermissionRoute module ="purchases" action="read"> <PurchaseOrderDetail/> </PermissionRoute>} />
 
-                <Route path="invoices" element={<Invoices />} />
-                <Route path="payments" element={<Payments />} />
+                <Route path="invoices" element={<PermissionRoute module="invoices" action="read"> <InvoiceList /></PermissionRoute>} />
+                <Route path="invoices/new" element={<PermissionRoute module="invoices" action="write"><InvoiceForm /></PermissionRoute>} />
+                <Route path="invoices/:id" element={<PermissionRoute module="invoices" action="read"><InvoiceDetail /></PermissionRoute>} />
+                <Route path="invoices/:id/edit" element={<PermissionRoute module="invoices" action="write"><InvoiceForm /></PermissionRoute>} />
+                
+                
+                <Route path="payments" element={<PermissionRoute module="payments" action="read" > <PaymentList/> </PermissionRoute>} />
+                <Route path="payments/new" element={<PermissionRoute module="payments" action="write"><RecordPayment /></PermissionRoute>} />
+                <Route path="payments/:id" element={<PermissionRoute module="payments" action="read"><PaymentDetail /></PermissionRoute>} />                
+
                 <Route path="reports" element={<Reports />} />
 
                 <Route path="settings" element={<SettingsLayout/>} >
