@@ -18,7 +18,7 @@ import Suppliers from './pages/dashboard/Suppliers.jsx'
 import PurchaseOrders from './pages/dashboard/PurchaseOrders.jsx'
 import Invoices from './pages/dashboard/Invoices.jsx'
 import Payments from './pages/dashboard/Payments.jsx'
-import Reports from './pages/dashboard/Reports.jsx'
+import Reports from './pages/dashboard/reports/Reports.jsx'
 
 import SettingsLayout from './pages/dashboard/settings/SettingsLayout.jsx'
 import CompanySettings from './pages/dashboard/settings/CompanySettings.jsx'
@@ -60,6 +60,8 @@ import InvoiceDetail from './pages/dashboard/invoices/InvoiceDetail.jsx'
 import PaymentList from './pages/dashboard/payments/PaymentList.jsx'
 import RecordPayment from './pages/dashboard/payments/RecordPayment.jsx'
 import PaymentDetail from './pages/dashboard/payments/PaymentDetail.jsx'
+import SalesReport from './pages/dashboard/reports/SalesReport.jsx'
+import InventoryReport from './pages/dashboard/reports/InventoryReport.jsx'
 
 export default function App() {
   return(
@@ -136,7 +138,10 @@ export default function App() {
                 <Route path="payments/new" element={<PermissionRoute module="payments" action="write"><RecordPayment /></PermissionRoute>} />
                 <Route path="payments/:id" element={<PermissionRoute module="payments" action="read"><PaymentDetail /></PermissionRoute>} />                
 
-                <Route path="reports" element={<Reports />} />
+                <Route path="reports" element={<PermissionRoute module="reports" action="read"><Reports /></PermissionRoute>} />
+                <Route path="reports/sales" element={<PermissionRoute module="reports" action="read"><SalesReport /></PermissionRoute>} />
+                <Route path="reports/inventory" element={<PermissionRoute module="reports" action="read"><InventoryReport /></PermissionRoute>} />
+
 
                 <Route path="settings" element={<SettingsLayout/>} >
                   <Route index element={<Navigate to="company" replace />} /> 
