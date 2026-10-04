@@ -14,6 +14,8 @@ import orderRouter from './routes/orderRoutes.js'
 import purchaseOrderRouter from './routes/purchaseOrderRoutes.js'
 import invoiceRouter from './routes/invoiceRoutes.js'
 import paymentRouter from './routes/paymentRoutes.js'
+import reportRouter from './routes/reportRoutes.js'
+import overviewRouter from './routes/overviewRoutes.js'
 
 dotenv.config()
 
@@ -45,6 +47,8 @@ app.use('/api/orders', orderRouter)
 app.use('/api/purchase-orders', purchaseOrderRouter)
 app.use('/api/invoices', invoiceRouter)
 app.use('/api/payments', paymentRouter)
+app.use('/api/reports', reportRouter)
+app.use('/api/overview', overviewRouter)
 
 
 
