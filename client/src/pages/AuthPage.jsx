@@ -3,12 +3,15 @@ import { motion } from 'framer-motion'
 import BrandingPanel from '../components/auth/BrandingPanel.jsx'
 import AuthForm from '../components/auth/AuthForm.jsx'
 import { useAuth } from '../hooks/useAuth.js'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 
 export default function AuthPage() {
 
-  const [mode, setMode] = useState('login')
+  const [searchParams] = useSearchParams()
+  const [mode, setMode] = useState(
+    searchParams.get('mode') || 'login'
+  )
    const { user } = useAuth()
   const navigate = useNavigate()
 
@@ -18,7 +21,7 @@ export default function AuthPage() {
 
   return (
     <div className="relative min-h-screen bg-ink overflow-hidden">
-      <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none" /> 
       <div className="relative min-h-screen flex flex-col lg:flex-row items-center justify-center gap-10 px-6 py-16">
         {/* <motion.div
           layout

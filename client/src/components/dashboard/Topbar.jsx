@@ -9,7 +9,7 @@ export default function Topbar() {
   const initial = user?.name?.charAt(0)?.toUpperCase() || '?'
 
   return (
-    <header className="flex items-center justify-between border-b border-line bg-ink px-6 py-3.5">
+    <header className="relative z-50 flex items-center justify-between border-b border-line bg-ink px-6 py-3.5">
       <div className="flex items-center gap-2 rounded-md border border-line bg-surface px-3 py-2 text-sm text-faint w-72">
         <FaSearch size={12} />
         <span>Search orders, SKUs…</span>

@@ -45,6 +45,8 @@ function PasswordField({ label, name, value, onChange, hint }) {
 }
 
 export default function AuthForm({ mode, setMode }) {
+  
+
   return (
    <div className="w-full max-w-md h-[600px] flex flex-col rounded-xl border border-line bg-panel p-7">
         <div className="flex w-full items-center gap-1 rounded-full border border-line bg-surface p-1 mb-6 shrink-0">

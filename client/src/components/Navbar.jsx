@@ -57,14 +57,16 @@ export default function Navbar() {
 
         <div className="hidden lg:flex items-center gap-3">
           <Link
-            to="/auth"
+            to="/auth?mode=login"
             className="text-sm text-muted hover:text-white transition-colors px-2"
           >
             Log in
           </Link>
-          <Button variant="primary" href="#get-started" as="a">
-            Get Started
-          </Button>
+          <Link to="/auth?mode=signup">
+            <Button variant="primary">
+              Get Started
+            </Button>
+          </Link>
         </div>
 
         <button

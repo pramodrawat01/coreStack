@@ -62,6 +62,7 @@ import RecordPayment from './pages/dashboard/payments/RecordPayment.jsx'
 import PaymentDetail from './pages/dashboard/payments/PaymentDetail.jsx'
 import SalesReport from './pages/dashboard/reports/SalesReport.jsx'
 import InventoryReport from './pages/dashboard/reports/InventoryReport.jsx'
+import ProductPage from './pages/ProductPage.jsx'
 
 export default function App() {
   return(
@@ -73,9 +74,10 @@ export default function App() {
               {/** landing page */}
               <Route path='/' element={<RootLayout/>} >
                 <Route index element={<LandingPage/>} />
-                <Route path='/solutions' element={<SolutionsPage/>} />
-                <Route path='/features' element={<FeaturesPage/>} />
-                <Route path='/pricing' element={<PricingPage/>}/>
+                <Route path='product' element={<ProductPage/>} />
+                <Route path='solutions' element={<SolutionsPage/>} />
+                <Route path='features' element={<FeaturesPage/>} />
+                <Route path='pricing' element={<PricingPage/>}/>
                 <Route path='resources' element={<ResourcesPage/>} />
               </Route>
 

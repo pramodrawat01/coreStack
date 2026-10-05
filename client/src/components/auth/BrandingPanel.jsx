@@ -1,14 +1,17 @@
 import { FaCubes } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 export default function BrandingPanel() {
   return (
     <div className="flex flex-col items-center lg:items-start gap-6 max-w-sm">
-      <div className="flex items-center gap-2">
-        <span className="flex h-7 w-7 items-center justify-center rounded-md bg-white text-ink">
-          <FaCubes size={13} />
-        </span>
-        <span className="font-semibold tracking-tight text-[15px] text-white">Corestack</span>
-      </div>
+      <Link to="/">
+        <div className="flex items-center gap-2">
+          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-white text-ink">
+            <FaCubes size={13} />
+          </span>
+          <span className="font-semibold tracking-tight text-[15px] text-white">Corestack</span>
+        </div>
+      </Link>
 
       <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight text-center lg:text-left">
         <span className="text-white">Run your </span>

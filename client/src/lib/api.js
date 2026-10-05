@@ -15,7 +15,7 @@ export async function apiFetch(path, { method = 'GET', body } = {}) {
 
   if (!res.ok) {
     console.log(data.message, 'network error')
-    notifyError(data.message)
+    // notifyError(data.message)
     throw new Error(data.message || 'Something went wrong in network call')
   }
 

@@ -11,6 +11,7 @@ import EmptyState from '../../components/dashboard/EmptyState.jsx'
 import RevenueChart from '../../components/dashboard/charts/RevenueChart.jsx'
 import WeeklyBars from '../../components/dashboard/charts/WeeklyBars.jsx'
 import { SkeletonBlock } from '../../components/dashboard/skeleton/Skeleton.jsx'
+import CustomDropdown from '../../components/common/CustomDropdown.jsx'
 
 const WINDOWS = [
   ['last_7', 'Last 7 days', 7],
@@ -62,7 +63,7 @@ export default function Overview() {
           <h1 className="text-2xl font-semibold text-white">Overview</h1>
           <p className="mt-1 text-sm text-muted">Here is what is happening with your business today.</p>
         </div>
-        <label className="relative inline-flex items-center">
+        {/* <label className="relative inline-flex items-center">
           <FaRegCalendarAlt className="pointer-events-none absolute left-3 text-xs text-muted" />
           <select
             value={period}
@@ -73,7 +74,24 @@ export default function Overview() {
               <option key={value} value={value} className="bg-panel">{label}</option>
             ))}
           </select>
-        </label>
+          
+        </label> */}
+        <div className="relative ">
+          <FaRegCalendarAlt
+            className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-xs text-muted"
+          />
+
+          <CustomDropdown
+            value={period}
+            onChange={setPeriod}
+            options={WINDOWS.map(([value, label]) => ({
+              value,
+              label,
+            }))}
+            className="w-44"
+            triggerClassName="pl-9 pr-3"
+          />
+        </div>
       </div>
 
       {nothingVisible && (

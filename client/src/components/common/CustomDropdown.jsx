@@ -7,6 +7,7 @@ export default function CustomDropdown({
   onChange,
   placeholder = "Select option",
   className = "",
+  triggerClassName = "",
   disabled = false,
 }) {
   const [open, setOpen] = useState(false);
@@ -67,6 +68,7 @@ export default function CustomDropdown({
           transition-colors
           ${open ? "border-accent2" : ""}
           ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}
+          ${triggerClassName}
         `}
       >
         <span className={selectedOption ? "text-white" : "text-muted"}>
