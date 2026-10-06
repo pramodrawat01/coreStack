@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaBars, FaTimes, FaCubes } from "react-icons/fa";
 import Button from "./landingPage/Button.jsx";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
   { label: "Product", to: "/product" },
@@ -17,6 +17,8 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const location = useLocation()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -43,15 +45,24 @@ export default function Navbar() {
             </span>
           </Link>
           <div className="hidden lg:flex items-center gap-1 rounded-md bg-white/[0.02] px-1.5 py-1.5">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                to={link.to}
-                className="px-3.5 py-1.5 rounded-md text-sm text-muted hover:text-white hover:bg-white/[0.06] transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+                const isActive = location.pathname == link.to
+              return (
+                <Link
+                  key={link.label}
+                  to={link.to}
+                  // className="px-3.5 py-1.5 rounded-md text-sm text-muted hover:text-white hover:bg-white/[0.06] transition-colors"
+                className={`px-3.5 py-1.5 rounded-md text-sm transition-colors ${
+        isActive
+          ? "bg-white/[0.06] text-white"
+          : "text-muted hover:text-white hover:bg-white/[0.06]"
+      }`}
+                >
+                  {link.label}
+                </Link>
+
+              )
+            })}
           </div>
         </div>
 
@@ -90,14 +101,14 @@ export default function Navbar() {
           >
             <div className="flex flex-col px-5 py-4 gap-1">
               {NAV_LINKS.map((link) => (
-                <a
+                <Link
                   key={link.label}
-                  href={link.href}
+                  to={link.to}
                   onClick={() => setOpen(false)}
                   className="py-2.5 text-[15px] text-muted hover:text-white transition-colors"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
               <div className="flex flex-col gap-2 pt-3 mt-2 border-t border-line">
                 <Button variant="secondary" href="#login" as="a">

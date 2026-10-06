@@ -63,6 +63,7 @@ import PaymentDetail from './pages/dashboard/payments/PaymentDetail.jsx'
 import SalesReport from './pages/dashboard/reports/SalesReport.jsx'
 import InventoryReport from './pages/dashboard/reports/InventoryReport.jsx'
 import ProductPage from './pages/ProductPage.jsx'
+import CustomersPage from './pages/CustomersPage.jsx'
 
 export default function App() {
   return(
@@ -79,6 +80,7 @@ export default function App() {
                 <Route path='features' element={<FeaturesPage/>} />
                 <Route path='pricing' element={<PricingPage/>}/>
                 <Route path='resources' element={<ResourcesPage/>} />
+                <Route path='customers' element={<CustomersPage/>}/>
               </Route>
 
               <Route path='/auth' element={
