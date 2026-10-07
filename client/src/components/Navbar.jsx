@@ -11,7 +11,8 @@ const NAV_LINKS = [
   { label: "Resources", to: "/resources" },
   { label: "Pricing", to: "/pricing" },
   { label: "Customers", to: "/customers" },
-  { label: "Contact sales", to: "/contact-sales" },
+  // { label: "Contact sales", to: "/contact-sales" },
+  {label : "About", to:'/about'}
 ];
 
 export default function Navbar() {
@@ -34,7 +35,20 @@ export default function Navbar() {
           : "bg-[#000000] border-b border-transparent"
       }`}
     >
-      <nav className="max-w-9xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+     
+      {/* <nav className={` max-w-9xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between`}> */}
+      <motion.nav
+        initial={false}
+        animate={{
+          maxWidth: scrolled ? "1352px" : "1536px",
+        }}
+        transition={{
+          duration: 0.9,
+          ease: [0.4, 0, 0.2, 1],
+        }}
+        className="mx-auto h-16 flex items-center justify-between px-5 sm:px-8"
+      >
+     
         <div className="flex gap-4">
           <Link to={"/"} className="flex items-center gap-2 shrink-0">
             <span className="flex h-7 w-7 items-center justify-center rounded-md bg-white text-ink">
@@ -44,7 +58,7 @@ export default function Navbar() {
               Corestack
             </span>
           </Link>
-          <div className="hidden lg:flex items-center gap-1 rounded-md bg-white/[0.02] px-1.5 py-1.5">
+          <div className="hidden lg:flex items-center gap-1  px-1.5 py-1.5">
             {NAV_LINKS.map((link) => {
                 const isActive = location.pathname == link.to
               return (
@@ -52,11 +66,11 @@ export default function Navbar() {
                   key={link.label}
                   to={link.to}
                   // className="px-3.5 py-1.5 rounded-md text-sm text-muted hover:text-white hover:bg-white/[0.06] transition-colors"
-                className={`px-3.5 py-1.5 rounded-md text-sm transition-colors ${
-        isActive
-          ? "bg-white/[0.06] text-white"
-          : "text-muted hover:text-white hover:bg-white/[0.06]"
-      }`}
+                  className={`px-3.5 py-1.5 rounded-md text-sm transition-colors ${
+                  isActive
+                      ? "bg-white/[0.06] text-white"
+                      : "text-muted hover:text-white hover:bg-white/[0.06]"
+                  }`}
                 >
                   {link.label}
                 </Link>
@@ -88,7 +102,7 @@ export default function Navbar() {
         >
           {open ? <FaTimes size={18} /> : <FaBars size={18} />}
         </button>
-      </nav>
+      </motion.nav>
 
       <AnimatePresence>
         {open && (

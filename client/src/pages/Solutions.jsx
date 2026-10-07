@@ -1,180 +1,603 @@
-import React from 'react';
+import React from "react";
+import { motion } from "framer-motion";
+
+
+// ======================================================
+// ANIMATIONS
+// ======================================================
+
+const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 12,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
+const fadeUpLarge = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
+const fadeLeft = {
+  hidden: {
+    opacity: 0,
+    x: -24,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+  },
+};
+
+const fadeRight = {
+  hidden: {
+    opacity: 0,
+    x: 24,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+  },
+};
+
+const stagger = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const viewport = {
+  once: true,
+  amount: 0.2,
+};
+
+
+// ======================================================
+// MAIN PAGE
+// ======================================================
 
 export default function SolutionsPage() {
   return (
-    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-blue-500/30 overflow-x-hidden">
-      
-      {/* --- BACKGROUND GRID EFFECT --- */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.15]" 
-           style={{
-             backgroundImage: `linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px)`,
-             backgroundSize: '40px 40px'
-           }}>
-      </div>
+    <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white selection:bg-blue-500/30">
+
+      {/* ==================================================
+          BACKGROUND GRID
+      ================================================== */}
+
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[calc(100%-500px)] z-0 opacity-[0.25]"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, #333 1px, transparent 1px),
+            linear-gradient(to bottom, #333 1px, transparent 1px)
+          `,
+          backgroundSize: "40px 40px",
+        }}
+      />
 
       <main className="relative z-10">
 
-        {/* --- 1. HERO SECTION --- */}
-        <section className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
-          
-          {/* Live Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 mb-8 backdrop-blur-sm">
+        {/* ==================================================
+            1. HERO
+        ================================================== */}
+
+        <section className="relative mx-auto flex max-w-7xl flex-col items-center px-6 pb-20 pt-32 text-center">
+
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            transition={{ duration: 0.5 }}
+            className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-gray-300 backdrop-blur-sm"
+          >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500 shadow-[0_0_8px_2px_rgba(59,130,246,0.8)]"></span>
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_8px_2px_rgba(59,130,246,0.8)]" />
             </span>
+
             Corestack 2.0 is Live now : Track Operations & Update
-          </div>
+          </motion.div>
 
-          {/* Headline */}
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 max-w-4xl leading-tight">
-            <span className="text-blue-500">Consolidate</span> your chaos.<br />
-            Accelerate your <span className="text-blue-500">growth</span>.
-          </h1>
 
-          {/* Subheadline */}
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mb-12 leading-relaxed">
-            Get real-time visibility into your inventory, cash flow, and customers—all from a single dashboard designed for speed.
-          </p>
+          <motion.h1
+            variants={fadeUpLarge}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            transition={{
+              duration: 0.6,
+              delay: 0.05,
+            }}
+            className="mb-6 max-w-4xl text-5xl font-bold leading-tight tracking-tight md:text-7xl"
+          >
+            <span className="text-blue-500">Consolidate</span> your chaos.
+            <br />
+            Accelerate your{" "}
+            <span className="text-blue-500">growth</span>.
+          </motion.h1>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button className="px-8 py-3 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition-colors duration-200">
+
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            transition={{
+              duration: 0.6,
+              delay: 0.1,
+            }}
+            className="mb-12 max-w-2xl text-lg leading-relaxed text-gray-400 md:text-xl"
+          >
+            Get real-time visibility into your inventory, cash flow, and
+            customers—all from a single dashboard designed for speed.
+          </motion.p>
+
+
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="flex flex-col gap-4 sm:flex-row"
+          >
+            <motion.button
+              variants={fadeUp}
+              transition={{ duration: 0.5 }}
+              className="rounded-md bg-white px-8 py-3 font-semibold text-black transition-colors duration-200 hover:bg-gray-200"
+            >
               Get Started
-            </button>
-            <button className="px-8 py-3 rounded-md bg-transparent border border-white/20 text-white font-semibold hover:bg-white/5 transition-colors duration-200">
+            </motion.button>
+
+            <motion.button
+              variants={fadeUp}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="rounded-md border border-white/20 bg-transparent px-8 py-3 font-semibold text-white transition-colors duration-200 hover:bg-white/5"
+            >
               Book a Demo
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </section>
 
-        {/* --- 2. TRUSTED BY LOGOS --- */}
-        <section className="border-y border-white/10 bg-white/[0.02] py-10">
-          <div className="max-w-7xl mx-auto px-6 text-center">
-            <p className="text-sm text-gray-500 font-medium uppercase tracking-wider mb-6">Powering operations for modern teams</p>
-            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale">
-              {/* Placeholder Logos */}
-              <div className="text-xl font-bold font-mono">Acme Corp</div>
-              <div className="text-xl font-bold font-serif">GlobalTech</div>
-              <div className="text-xl font-bold tracking-widest">NEXUS</div>
-              <div className="text-xl font-bold">Vortex</div>
-            </div>
-          </div>
-        </section>
 
-        {/* --- 3. CORE SOLUTION PILLARS (BENTO GRID) --- */}
-        <section className="py-24 px-6 max-w-7xl mx-auto">
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">The All-In-One Platform To Run Your Operations.</h2>
-            <p className="text-gray-400 text-lg">Stop paying for five different tools. Consolidate your tech stack.</p>
-          </div>
+        {/* ==================================================
+            2. TRUSTED BY
+        ================================================== */}
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Feature 1 */}
-            <div className="md:col-span-2 p-8 rounded-2xl bg-gradient-to-br from-white/[0.05] to-transparent border border-white/10 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[80px] rounded-full group-hover:bg-blue-500/20 transition-all duration-500"></div>
-              <h3 className="text-2xl font-semibold mb-3">Real-Time Inventory Sync</h3>
-              <p className="text-gray-400 max-w-md">Never oversell or stockout again. Corestack syncs your warehouse data across all sales channels instantly.</p>
-              <div className="mt-8 h-32 rounded-lg bg-black/50 border border-white/5 flex items-center justify-center">
-                {/* Visual Placeholder */}
-                <span className="text-gray-600 font-mono text-sm">Inventory Graph Placeholder</span>
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={fadeUp}
+          transition={{ duration: 0.6 }}
+          className="border-y border-white/10 bg-white/[0.02] py-10"
+        >
+          <div className="mx-auto max-w-7xl px-6 text-center">
+
+            <p className="mb-6 text-sm font-medium uppercase tracking-wider text-gray-500">
+              Powering operations for modern teams
+            </p>
+
+            <motion.div
+              variants={stagger}
+              className="flex flex-wrap items-center justify-center gap-8 opacity-50 grayscale md:gap-16"
+            >
+              {[
+                "Acme Corp",
+                "GlobalTech",
+                "NEXUS",
+                "Vortex",
+              ].map((logo, index) => (
+                <motion.div
+                  key={logo}
+                  variants={fadeUp}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.05,
+                  }}
+                  className={`text-xl font-bold ${
+                    index === 0
+                      ? "font-mono"
+                      : index === 1
+                      ? "font-serif"
+                      : "tracking-widest"
+                  }`}
+                >
+                  {logo}
+                </motion.div>
+              ))}
+            </motion.div>
+
+          </div>
+        </motion.section>
+
+
+        {/* ==================================================
+            3. CORE SOLUTION PILLARS
+        ================================================== */}
+
+        <section className="mx-auto max-w-7xl px-6 py-24">
+
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            transition={{ duration: 0.6 }}
+            className="mb-16"
+          >
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+              The All-In-One Platform To Run Your Operations.
+            </h2>
+
+            <p className="text-lg text-gray-400">
+              Stop paying for five different tools. Consolidate your tech stack.
+            </p>
+          </motion.div>
+
+
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{
+              once: true,
+              amount: 0.15,
+            }}
+            className="grid grid-cols-1 gap-6 md:grid-cols-3"
+          >
+
+            {/* Inventory */}
+            <motion.div
+              variants={fadeUpLarge}
+              transition={{ duration: 0.6 }}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-transparent p-8 md:col-span-2"
+            >
+              <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-blue-500/10 blur-[80px] transition-all duration-500 group-hover:bg-blue-500/20" />
+
+              <h3 className="mb-3 text-2xl font-semibold">
+                Real-Time Inventory Sync
+              </h3>
+
+              <p className="max-w-md text-gray-400">
+                Never oversell or stockout again. Corestack syncs your
+                warehouse data across all sales channels instantly.
+              </p>
+
+              <div className="mt-8 flex h-32 items-center justify-center rounded-lg border border-white/5 bg-black/50">
+                <span className="font-mono text-sm text-gray-600">
+                  Inventory Graph Placeholder
+                </span>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Feature 2 */}
-            <div className="p-8 rounded-2xl bg-gradient-to-b from-white/[0.05] to-transparent border border-white/10 relative overflow-hidden group">
-               <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/10 blur-[60px] rounded-full group-hover:bg-purple-500/20 transition-all duration-500"></div>
-              <h3 className="text-xl font-semibold mb-3">Automated Cash Flow</h3>
-              <p className="text-gray-400 text-sm">Connect invoices to payments automatically. Get a live view of your runway.</p>
-              <div className="mt-8 h-32 rounded-lg bg-black/50 border border-white/5 flex items-center justify-center">
-                <span className="text-gray-600 font-mono text-sm">Cash Flow UI</span>
+
+            {/* Cash Flow */}
+            <motion.div
+              variants={fadeUpLarge}
+              transition={{ duration: 0.6, delay: 0.05 }}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-8"
+            >
+              <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-purple-500/10 blur-[60px] transition-all duration-500 group-hover:bg-purple-500/20" />
+
+              <h3 className="relative mb-3 text-xl font-semibold">
+                Automated Cash Flow
+              </h3>
+
+              <p className="relative text-sm text-gray-400">
+                Connect invoices to payments automatically. Get a live view
+                of your runway.
+              </p>
+
+              <div className="relative mt-8 flex h-32 items-center justify-center rounded-lg border border-white/5 bg-black/50">
+                <span className="font-mono text-sm text-gray-600">
+                  Cash Flow UI
+                </span>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Feature 3 */}
-            <div className="p-8 rounded-2xl bg-gradient-to-b from-white/[0.05] to-transparent border border-white/10 relative overflow-hidden group">
-              <h3 className="text-xl font-semibold mb-3">Unified CRM</h3>
-              <p className="text-gray-400 text-sm">Every order tied to a customer profile. Know exactly who your best buyers are.</p>
-            </div>
 
-            {/* Feature 4 */}
-            <div className="md:col-span-2 p-8 rounded-2xl bg-gradient-to-br from-white/[0.05] to-transparent border border-white/10 relative overflow-hidden group">
-               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[80px] rounded-full group-hover:bg-emerald-500/20 transition-all duration-500"></div>
-              <h3 className="text-2xl font-semibold mb-3">Enterprise-Grade Security</h3>
-              <p className="text-gray-400 max-w-md">SOC2 Type II compliant. Granular role-based access control. Your data is encrypted at rest and in transit.</p>
-            </div>
-          </div>
+            {/* CRM */}
+            <motion.div
+              variants={fadeUpLarge}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-8"
+            >
+              <h3 className="mb-3 text-xl font-semibold">
+                Unified CRM
+              </h3>
+
+              <p className="text-sm text-gray-400">
+                Every order tied to a customer profile. Know exactly who your
+                best buyers are.
+              </p>
+            </motion.div>
+
+
+            {/* Security */}
+            <motion.div
+              variants={fadeUpLarge}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-transparent p-8 md:col-span-2"
+            >
+              <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-emerald-500/10 blur-[80px] transition-all duration-500 group-hover:bg-emerald-500/20" />
+
+              <h3 className="mb-3 text-2xl font-semibold">
+                Enterprise-Grade Security
+              </h3>
+
+              <p className="max-w-md text-gray-400">
+                SOC2 Type II compliant. Granular role-based access control.
+                Your data is encrypted at rest and in transit.
+              </p>
+            </motion.div>
+
+          </motion.div>
         </section>
 
-        {/* --- 4. DETAILED WORKFLOW SECTION --- */}
-        <section className="py-24 border-t border-white/5 bg-black/50 relative">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">How it works</h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">From purchase order to final payment, Corestack streamlines every step of your operational workflow.</p>
-            </div>
+
+        {/* ==================================================
+            4. HOW IT WORKS
+        ================================================== */}
+
+        <section className="relative border-t border-white/5 bg-black/50 py-24">
+
+          <div className="mx-auto max-w-7xl px-6">
+
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+              transition={{ duration: 0.6 }}
+              className="mb-16 text-center"
+            >
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+                How it works
+              </h2>
+
+              <p className="mx-auto max-w-2xl text-gray-400">
+                From purchase order to final payment, Corestack streamlines
+                every step of your operational workflow.
+              </p>
+            </motion.div>
+
 
             <div className="space-y-12">
+
               {/* Step 1 */}
-              <div className="flex flex-col md:flex-row gap-8 items-center">
-                <div className="w-full md:w-1/2 p-8">
-                  <div className="text-blue-500 font-mono text-sm mb-2">01 — INGEST</div>
-                  <h3 className="text-2xl font-bold mb-4">Connect your data sources</h3>
-                  <p className="text-gray-400">Integrate seamlessly with Shopify, Amazon, QuickBooks, and your existing WMS. Data flows in automatically without manual CSV uploads.</p>
-                </div>
-                <div className="w-full md:w-1/2 h-64 rounded-xl border border-white/10 bg-[#0a0a0a] flex items-center justify-center">
-                   <span className="text-gray-600 font-mono">Integration UI Placeholder</span>
-                </div>
-              </div>
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{
+                  once: true,
+                  amount: 0.2,
+                }}
+                className="flex flex-col items-center gap-8 md:flex-row"
+              >
+
+                <motion.div
+                  variants={fadeLeft}
+                  transition={{ duration: 0.6 }}
+                  className="w-full p-8 md:w-1/2"
+                >
+                  <div className="mb-2 font-mono text-sm text-blue-500">
+                    01 — INGEST
+                  </div>
+
+                  <h3 className="mb-4 text-2xl font-bold">
+                    Connect your data sources
+                  </h3>
+
+                  <p className="text-gray-400">
+                    Integrate seamlessly with Shopify, Amazon, QuickBooks,
+                    and your existing WMS. Data flows in automatically
+                    without manual CSV uploads.
+                  </p>
+                </motion.div>
+
+
+                <motion.div
+                  variants={fadeRight}
+                  transition={{ duration: 0.6, delay: 0.08 }}
+                  className="flex h-64 w-full items-center justify-center rounded-xl border border-white/10 bg-[#0a0a0a] md:w-1/2"
+                >
+                  <span className="font-mono text-gray-600">
+                    Integration UI Placeholder
+                  </span>
+                </motion.div>
+
+              </motion.div>
+
 
               {/* Step 2 */}
-              <div className="flex flex-col md:flex-row-reverse gap-8 items-center">
-                <div className="w-full md:w-1/2 p-8">
-                  <div className="text-blue-500 font-mono text-sm mb-2">02 — PROCESS</div>
-                  <h3 className="text-2xl font-bold mb-4">Automate the busywork</h3>
-                  <p className="text-gray-400">Set custom rules for reordering, invoicing, and customer notifications. Corestack acts as your operational autopilot.</p>
-                </div>
-                <div className="w-full md:w-1/2 h-64 rounded-xl border border-white/10 bg-[#0a0a0a] flex items-center justify-center">
-                   <span className="text-gray-600 font-mono">Automation Rules UI</span>
-                </div>
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{
+                  once: true,
+                  amount: 0.2,
+                }}
+                className="flex flex-col items-center gap-8 md:flex-row-reverse"
+              >
+
+                <motion.div
+                  variants={fadeRight}
+                  transition={{ duration: 0.6 }}
+                  className="w-full p-8 md:w-1/2"
+                >
+                  <div className="mb-2 font-mono text-sm text-blue-500">
+                    02 — PROCESS
+                  </div>
+
+                  <h3 className="mb-4 text-2xl font-bold">
+                    Automate the busywork
+                  </h3>
+
+                  <p className="text-gray-400">
+                    Set custom rules for reordering, invoicing, and customer
+                    notifications. Corestack acts as your operational
+                    autopilot.
+                  </p>
+                </motion.div>
+
+
+                <motion.div
+                  variants={fadeLeft}
+                  transition={{ duration: 0.6, delay: 0.08 }}
+                  className="flex h-64 w-full items-center justify-center rounded-xl border border-white/10 bg-[#0a0a0a] md:w-1/2"
+                >
+                  <span className="font-mono text-gray-600">
+                    Automation Rules UI
+                  </span>
+                </motion.div>
+
+              </motion.div>
+
+            </div>
+          </div>
+        </section>
+
+
+        {/* ==================================================
+            5. METRICS
+        ================================================== */}
+
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
+          variants={stagger}
+          className="border-t border-white/10 bg-white/[0.02] py-20"
+        >
+
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-6 text-center md:grid-cols-3">
+
+            <motion.div
+              variants={fadeUpLarge}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="mb-2 text-4xl font-bold text-white md:text-5xl">
+                99.9%
               </div>
-            </div>
-          </div>
-        </section>
 
-        {/* --- 5. METRICS / SOCIAL PROOF --- */}
-        <section className="py-20 border-t border-white/10 bg-white/[0.02]">
-          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">99.9%</div>
-              <div className="text-gray-400 text-sm font-medium uppercase tracking-wider">Uptime SLA</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">10M+</div>
-              <div className="text-gray-400 text-sm font-medium uppercase tracking-wider">Orders Processed</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">30%</div>
-              <div className="text-gray-400 text-sm font-medium uppercase tracking-wider">Avg. OpEx Reduction</div>
-            </div>
-          </div>
-        </section>
+              <div className="text-sm font-medium uppercase tracking-wider text-gray-400">
+                Uptime SLA
+              </div>
+            </motion.div>
 
-        {/* --- 6. FINAL CTA --- */}
-        <section className="py-32 px-6">
-          <div className="max-w-4xl mx-auto text-center p-12 rounded-3xl bg-gradient-to-b from-blue-900/20 to-black border border-blue-500/20 relative overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-32 bg-blue-500/20 blur-[100px]"></div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 relative z-10">Ready to consolidate your stack?</h2>
-            <p className="text-gray-400 mb-10 text-lg relative z-10">Join the modern businesses running their entire operation on Corestack.</p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
-              <button className="px-8 py-3 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-500 transition-colors duration-200 shadow-[0_0_20px_rgba(37,99,235,0.4)]">
+
+            <motion.div
+              variants={fadeUpLarge}
+              transition={{ duration: 0.6, delay: 0.08 }}
+            >
+              <div className="mb-2 text-4xl font-bold text-white md:text-5xl">
+                10M+
+              </div>
+
+              <div className="text-sm font-medium uppercase tracking-wider text-gray-400">
+                Orders Processed
+              </div>
+            </motion.div>
+
+
+            <motion.div
+              variants={fadeUpLarge}
+              transition={{ duration: 0.6, delay: 0.16 }}
+            >
+              <div className="mb-2 text-4xl font-bold text-white md:text-5xl">
+                30%
+              </div>
+
+              <div className="text-sm font-medium uppercase tracking-wider text-gray-400">
+                Avg. OpEx Reduction
+              </div>
+            </motion.div>
+
+          </div>
+        </motion.section>
+
+
+        {/* ==================================================
+            6. FINAL CTA
+        ================================================== */}
+
+        <section className="px-6 py-32">
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{
+              once: true,
+              amount: 0.25,
+            }}
+            variants={fadeUpLarge}
+            transition={{ duration: 0.7 }}
+            className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-b from-blue-900/20 to-black p-12 text-center"
+          >
+
+            <div className="absolute left-1/2 top-0 h-32 w-full -translate-x-1/2 bg-blue-500/20 blur-[100px]" />
+
+
+            <motion.h2
+              variants={fadeUp}
+              transition={{ duration: 0.5 }}
+              className="relative z-10 mb-6 text-3xl font-bold md:text-5xl"
+            >
+              Ready to consolidate your stack?
+            </motion.h2>
+
+
+            <motion.p
+              variants={fadeUp}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="relative z-10 mb-10 text-lg text-gray-400"
+            >
+              Join the modern businesses running their entire operation on
+              Corestack.
+            </motion.p>
+
+
+            <motion.div
+              variants={stagger}
+              className="relative z-10 flex flex-col justify-center gap-4 sm:flex-row"
+            >
+
+              <motion.button
+                variants={fadeUp}
+                transition={{ duration: 0.5 }}
+                className="rounded-md bg-blue-600 px-8 py-3 font-semibold text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-colors duration-200 hover:bg-blue-500"
+              >
                 Get Started for Free
-              </button>
-              <button className="px-8 py-3 rounded-md bg-transparent border border-white/20 text-white font-semibold hover:bg-white/5 transition-colors duration-200">
+              </motion.button>
+
+              <motion.button
+                variants={fadeUp}
+                transition={{ duration: 0.5, delay: 0.05 }}
+                className="rounded-md border border-white/20 bg-transparent px-8 py-3 font-semibold text-white transition-colors duration-200 hover:bg-white/5"
+              >
                 Talk to Sales
-              </button>
-            </div>
-          </div>
+              </motion.button>
+
+            </motion.div>
+
+          </motion.div>
         </section>
 
       </main>

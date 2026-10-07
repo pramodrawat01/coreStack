@@ -11,6 +11,7 @@ import {
   FiActivity,
   FiCheck,
 } from "react-icons/fi";
+import DashboardPreview from "../components/landingPage/DashboardPreview";
 
 const modules = [
   {
@@ -88,159 +89,6 @@ const stats = [
   ["04", "Cash", "Understand what is owed and collected."],
 ];
 
-function DashboardPreview() {
-  return (
-    <div className="relative mx-auto mt-16 max-w-6xl">
-      {/* glow */}
-      <div className="absolute left-1/2 top-1/2 h-[400px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-[120px]" />
-
-      <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-[#08090b] shadow-2xl shadow-black/50">
-        {/* top bar */}
-        <div className="flex h-12 items-center justify-between border-b border-white/10 px-5">
-          <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-white">
-              <FiActivity className="text-black" size={13} />
-            </div>
-
-            <span className="text-xs font-semibold text-white">
-              Corestack
-            </span>
-          </div>
-
-          <div className="hidden items-center gap-6 text-[10px] text-neutral-500 sm:flex">
-            <span>Overview</span>
-            <span>Inventory</span>
-            <span>Orders</span>
-            <span>Customers</span>
-            <span>Analytics</span>
-          </div>
-
-          <div className="h-6 w-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500" />
-        </div>
-
-        <div className="grid min-h-[430px] grid-cols-[180px_1fr]">
-          {/* sidebar */}
-          <aside className="hidden border-r border-white/10 p-4 sm:block">
-            <div className="mb-6 text-[9px] uppercase tracking-[0.18em] text-neutral-600">
-              Workspace
-            </div>
-
-            <div className="space-y-1">
-              {[
-                "Overview",
-                "Inventory",
-                "Orders",
-                "Customers",
-                "Suppliers",
-                "Invoices",
-                "Payments",
-              ].map((item, index) => (
-                <div
-                  key={item}
-                  className={`rounded-md px-3 py-2 text-[10px] ${
-                    index === 0
-                      ? "bg-white/[0.08] text-white"
-                      : "text-neutral-500"
-                  }`}
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </aside>
-
-          {/* dashboard */}
-          <main className="p-5">
-            <div className="mb-5 flex items-center justify-between">
-              <div>
-                <div className="text-[10px] text-neutral-500">
-                  Operations overview
-                </div>
-                <div className="mt-1 text-lg font-semibold text-white">
-                  Good morning, your business is moving.
-                </div>
-              </div>
-
-              <div className="rounded-md border border-white/10 px-3 py-2 text-[9px] text-neutral-500">
-                Jun 1 — Jun 30, 2026
-              </div>
-            </div>
-
-            {/* stat cards */}
-            <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-              {[
-                ["Revenue", "$128,420", "+14.8%"],
-                ["Open orders", "284", "+8.4%"],
-                ["Inventory value", "$842K", "+12.1%"],
-                ["Cash collected", "$94.2K", "+18.2%"],
-              ].map(([title, value, change]) => (
-                <div
-                  key={title}
-                  className="rounded-lg border border-white/10 bg-white/[0.025] p-4"
-                >
-                  <div className="text-[9px] text-neutral-500">{title}</div>
-
-                  <div className="mt-3 text-xl font-semibold text-white">
-                    {value}
-                  </div>
-
-                  <div className="mt-2 text-[9px] text-emerald-400">
-                    {change} this month
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* charts */}
-            <div className="mt-3 grid gap-3 lg:grid-cols-[1.5fr_1fr]">
-              <div className="rounded-lg border border-white/10 bg-white/[0.025] p-4">
-                <div className="flex justify-between">
-                  <span className="text-[10px] text-neutral-400">
-                    Revenue
-                  </span>
-                  <span className="text-[9px] text-neutral-600">
-                    Last 30 days
-                  </span>
-                </div>
-
-                <div className="mt-8 flex h-36 items-end gap-3">
-                  {[40, 58, 48, 75, 65, 92, 78, 100].map((height, i) => (
-                    <div
-                      key={i}
-                      className="flex-1 rounded-t-sm bg-blue-500/80"
-                      style={{ height: `${height}%` }}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-white/10 bg-white/[0.025] p-4">
-                <div className="text-[10px] text-neutral-400">
-                  Order status
-                </div>
-
-                <div className="flex h-36 items-center justify-center">
-                  <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-[12px] border-blue-500">
-                    <div className="absolute inset-[-12px] rounded-full border-[12px] border-transparent border-r-emerald-400 border-t-emerald-400 rotate-45" />
-
-                    <div className="text-center">
-                      <div className="text-lg font-semibold text-white">
-                        284
-                      </div>
-                      <div className="text-[8px] text-neutral-500">
-                        orders
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function Product() {
   return (
@@ -250,77 +98,95 @@ export default function Product() {
       ===================================================== */}
 
       <section className="relative border-b border-white/10">
-        {/* grid */}
-        <div
-          className="absolute inset-0 opacity-40"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)
-            `,
-            backgroundSize: "64px 64px",
-            maskImage:
-              "linear-gradient(to bottom, black 0%, transparent 90%)",
-          }}
-        />
+  {/* grid */}
+  <div
+    className="absolute inset-0 opacity-40"
+    style={{
+      backgroundImage: `
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)
+      `,
+      backgroundSize: "64px 64px",
+      maskImage:
+        "linear-gradient(to bottom, black 0%, transparent 90%)",
+    }}
+  />
 
-        {/* blue glow */}
-        <div className="absolute left-1/2 top-[25%] h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-blue-500/10 blur-[140px]" />
+  {/* blue glow */}
+  <div className="absolute left-1/2 top-[25%] h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-blue-500/10 blur-[140px]" />
 
-        <div className="relative mx-auto  max-w-7xl px-6 pb-24 pt-20 lg:px-10 ">
-          <div className="mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-7 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/5 px-4 py-2 text-[11px] font-medium tracking-wide text-blue-400"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-400 shadow-[0_0_10px_#3b82f6]" />
-              THE CORESTACK PLATFORM
-            </motion.div>
+  <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 lg:px-10">
+    <div className="mx-auto text-center">
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-5xl font-semibold leading-[0.95] tracking-[-0.055em] sm:text-6xl lg:text-8xl"
-            >
-              Everything your
-              <br />
-              operation needs{" "}
-              <span className="text-blue-500">connected.</span>
-            </motion.h1>
+      {/* Eyebrow */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mb-7 inline-flex items-center gap-2 rounded-md text-sm border border-white/10 bg-white/[0.1] px-5 py-1.5 text-md text-neutral-300 transition-colors hover:bg-white/[0.08] hover:text-white"
+      >
+        <span className="relative flex h-2.5 w-2.5">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75" />
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="mx-auto mt-8 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg"
-            >
-              Corestack brings inventory, orders, customers, suppliers,
-              invoices and payments into one real-time operating system for
-              your business.
-            </motion.p>
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_2px_rgba(59,130,246,0.8)]" />
+        </span>
 
-            <div className="mt-9 flex justify-center gap-3">
-              <a
-                href="/auth?mode=signup"
-                className="rounded-md bg-white px-6 py-3 text-sm font-medium text-black transition hover:bg-neutral-200"
-              >
-                Start building
-              </a>
+        THE CORESTACK PLATFORM
+      </motion.div>
 
-              <a
-                href="#platform"
-                className="rounded-md border border-white/20 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40 hover:bg-white/5"
-              >
-                Explore platform
-              </a>
-            </div>
-          </div>
+      {/* Heading */}
+      <motion.h1
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.05 }}
+        className="text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.05] text-balance mt-4"
+      >
+        Everything your
+        <br />
+        operation needs{" "}
+        <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+          connected.
+        </span>
+      </motion.h1>
 
-          <DashboardPreview />
-        </div>
-      </section>
+      {/* Description */}
+      <motion.p
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="text-base sm:text-lg text-neutral-400 max-w-xl leading-relaxed mx-auto mt-8"
+      >
+        Corestack brings inventory, orders, customers, suppliers,
+        invoices and payments into one real-time operating system for
+        your business.
+      </motion.p>
+
+      {/* Buttons */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.15 }}
+        className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-9"
+      >
+        <a
+          href="/auth?mode=signup"
+          className="rounded-md bg-white px-6 py-3 text-sm font-medium text-black transition hover:bg-neutral-200"
+        >
+          Start building
+        </a>
+
+        <a
+          href="#platform"
+          className="rounded-md border border-white/20 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40 hover:bg-white/5"
+        >
+          Explore platform
+        </a>
+      </motion.div>
+    </div>
+
+    
+  </div>
+</section>
 
       {/* =====================================================
           INTRO
@@ -376,6 +242,16 @@ export default function Product() {
           </div>
         </div>
       </section>
+
+    {/* Dashboard Preview */}
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.25 }}
+      className="relative z-10 max-w-6xl mx-auto w-full mt-28"
+    >
+      <DashboardPreview />
+    </motion.div>
 
       {/* =====================================================
           MODULES

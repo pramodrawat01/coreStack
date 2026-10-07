@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Button from "../components/landingPage/Button.jsx";
 import DashboardPreview from "../components/landingPage/DashboardPreview.jsx";
 import heroImage from "../assets/heroBg.png";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
@@ -82,9 +83,11 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.15 }}
             className="flex flex-col sm:flex-row items-center gap-3 mt-2"
           >
-            <Button variant="primary" href="#get-started" as="a">
-              Get Started
-            </Button>
+            <Link to='/auth?mode=signup'>
+              <Button variant="primary" href="#get-started" as="a">
+                Get Started
+              </Button>
+            </Link>
             <Button variant="secondary" href="#demo" as="a">
               Book a Demo
             </Button>
